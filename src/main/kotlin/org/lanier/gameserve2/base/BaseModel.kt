@@ -1,8 +1,9 @@
 package org.lanier.gameserve2.base
 
-data class BaseModel(
+data class BaseModel<T>(
     val code: Int = RES_SUCCESS,
     val msg: String = "",
+    val data: T? = null
 ) {
 
     companion object {
