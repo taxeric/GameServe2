@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanier.gameserve2.mapper.PetMapper">
+
+    <resultMap id="baseResultMap" type="org.lanier.gameserve2.entity.Pet">
+        <id column="id" property="petId"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="satiety" property="satiety"/>
+        <result column="cleanliness" property="cleanliness"/>
+        <result column="intelligence" property="intelligence"/>
+        <result column="muscle" property="muscle"/>
+        <result column="healthy" property="healthy"/>
+        <result column="emotion" property="emotion"/>
+        <result column="user_id" property="userId"/>
+        <result column="age" property="age"/>
+        <result column="birthday" property="birthday"/>
+    </resultMap>
+
+    <insert id="create" parameterType="org.lanier.gameserve2.entity.Pet" useGeneratedKeys="true" keyProperty="petId">
+        insert into pets (name,user_id) values (#{name},#{userId});
+    </insert>
+
+    <select id="getPetById" resultMap="baseResultMap">
+        select * from pets where id=#{petId};
+    </select>
+</mapper>
