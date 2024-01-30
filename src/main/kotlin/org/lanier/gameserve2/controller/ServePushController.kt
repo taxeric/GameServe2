@@ -23,13 +23,13 @@ class ServePushController {
     @PostMapping("/push/send/type")
     fun pushSystemMsgToClients(@RequestParam("type") type: String) : BaseModel<Any> {
         handleMessage(Message(from = Message.SYSTEM, text = type))
-        return BaseModel()
+        return BaseModel.success(data = null)
     }
 
     @PostMapping("/push/send")
     fun pushSimpleMsgToClients(@RequestParam("msg") msg: String) : BaseModel<Any> {
         handleMessage(Message(from = Message.SIMPLE, text = msg))
-        return BaseModel()
+        return BaseModel.success(data = null)
     }
     
     private fun handleMessage(message: Message) {
