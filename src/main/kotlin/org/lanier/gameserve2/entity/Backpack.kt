@@ -1,5 +1,7 @@
 package org.lanier.gameserve2.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 /**
  * 背包
  *
@@ -8,9 +10,9 @@ package org.lanier.gameserve2.entity
 data class Backpack(
 
     /**
-     * 道具id
+     * 背包道具id
      */
-    val propId: Int = 0,
+    @JsonIgnore val bpkId: Int = 0,
 
     /**
      * 道具数量
