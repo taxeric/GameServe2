@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanier.gameserve2.mapper.FoodMapper">
+
+    <resultMap id="baseResultMap" type="org.lanier.gameserve2.entity.articles.Food">
+        <id column="id" property="foodId"/>
+        <result column="name" property="name"/>
+        <result column="effect" property="effect"/>
+        <result column="cost" property="cost"/>
+        <result column="value" property="value"/>
+        <result column="season" property="season"/>
+        <result column="use_level" property="useLevel"/>
+        <result column="pic" property="pic"/>
+        <result column="l_e" property="LE"/>
+    </resultMap>
+
+    <select id="getFoodById" resultMap="baseResultMap">
+        select * from foods where id=#{foodId}
+    </select>
+</mapper>
