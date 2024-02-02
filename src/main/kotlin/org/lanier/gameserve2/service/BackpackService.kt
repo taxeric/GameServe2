@@ -18,4 +18,12 @@ class BackpackService(
         propId: Int,
         propType: Int
     ) = mapper.findPropById(userId, petId, propId, propType)
+
+    fun consume(
+        userId: Int,
+        petId: Int,
+        propId: Int,
+        propType: Int,
+        consume: Int,
+    ) = mapper.consume(userId, petId, propId, propType, consume) > 0
 }

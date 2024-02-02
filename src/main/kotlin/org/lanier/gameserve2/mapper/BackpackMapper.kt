@@ -16,4 +16,12 @@ interface BackpackMapper {
         propId: Int,
         propType: Int
     ) : List<Backpack>
+
+    fun consume(
+        userId: Int,
+        petId: Int,
+        propId: Int,
+        propType: Int,
+        consume: Int,
+    ) : Int
 }
