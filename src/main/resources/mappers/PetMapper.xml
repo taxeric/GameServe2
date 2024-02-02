@@ -26,4 +26,8 @@
     <select id="getPetById" resultMap="baseResultMap">
         select * from pets where id=#{petId};
     </select>
+
+    <update id="updateStatusOfSatiety">
+        update pets set satiety=#{newValue} where id=#{petId}
+    </update>
 </mapper>

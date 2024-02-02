@@ -29,5 +29,15 @@ data class BaseModel<T>(
             serviceTime = System.currentTimeMillis(),
             data = data
         )
+
+        fun failureBoolean(
+            code: Int = RES_ERROR,
+            message: String = "failed",
+        ) = BaseModel(
+            code = code,
+            message = message,
+            serviceTime = System.currentTimeMillis(),
+            data = false
+        )
     }
 }
