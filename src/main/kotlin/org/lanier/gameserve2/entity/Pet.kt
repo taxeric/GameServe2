@@ -58,4 +58,9 @@ data class Pet(
      * 生日
      */
     val birthday: Date? = null,
+
+    /**
+     * 阶段, 分为幼年, 少年, 成年
+     */
+    val phase: Int = 0,
 )

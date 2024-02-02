@@ -12,7 +12,7 @@ data class Backpack(
     /**
      * 背包道具id
      */
-    @JsonIgnore val bpkId: Int = 0,
+    val bpkId: Int = 0,
 
     /**
      * 道具数量
