@@ -23,6 +23,10 @@
         insert into pets (name,user_id) values (#{name},#{userId});
     </insert>
 
+    <select id="getPetsByUserId" resultMap="baseResultMap">
+        select * from pets where user_id=#{userId}
+    </select>
+
     <select id="getPetById" resultMap="baseResultMap">
         select * from pets where id=#{petId};
     </select>

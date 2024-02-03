@@ -2,6 +2,7 @@ package org.lanier.gameserve2.controller
 
 import org.lanier.gameserve2.base.BaseModel
 import org.lanier.gameserve2.entity.User
+import org.lanier.gameserve2.service.PetService
 import org.lanier.gameserve2.service.UserService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/user")
 class UserController(
-    private val service: UserService
+    private val service: UserService,
+    private val petService: PetService
 ) {
 
     @PostMapping("/login")
@@ -58,6 +60,11 @@ class UserController(
         if (result.isEmpty()) {
             return BaseModel.success(data = null, message = "没有找到用户信息~")
         }
-        return BaseModel.success(data = result[0])
+        val user = result[0].copy(
+            pets = getPets(result[0].userId)
+        )
+        return BaseModel.success(data = user)
     }
+
+    private fun getPets(userId: Int) = petService.getPetsByUserId(userId)
 }

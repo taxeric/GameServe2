@@ -8,6 +8,8 @@ interface PetMapper {
 
     fun create(pet: Pet) : Int
 
+    fun getPetsByUserId(userId: Int) : List<Pet>
+
     fun getPetById(petId: Int) : List<Pet>
 
     fun updateStatusOfSatiety(petId: Int, newValue: Int) : Int
