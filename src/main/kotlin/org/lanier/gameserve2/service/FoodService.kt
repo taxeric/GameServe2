@@ -13,4 +13,6 @@ class FoodService(
 ) {
 
     fun getFoodById(foodId: Int) = mapper.getFoodById(foodId)
+
+    fun getFoodsByUserAndPetId(userId: Int, petId: Int) = mapper.getFoodsByUserAndPetId(userId, petId)
 }

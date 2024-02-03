@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.lanier.gameserve2.mapper.ToiletriesMapper">
+<mapper namespace="org.lanier.gameserve2.mapper.DrugMapper">
 
-    <resultMap id="baseResultMap" type="org.lanier.gameserve2.entity.articles.Toiletries">
+    <resultMap id="baseResultMap" type="org.lanier.gameserve2.entity.articles.Drug">
         <id column="id" property="toiletriesId"/>
         <result column="name" property="name"/>
         <result column="effect" property="effect"/>
@@ -27,13 +27,13 @@
         <result column="bpkId" property="bpkId" />
     </resultMap>
 
-    <select id="getToiletriesByUserAndPetId" resultMap="backpackDTOMap">
-        select toiletries.id as propId,toiletries.name,toiletries.effect,toiletries.pic,toiletries.use_level as useLevel,backpack.amount,backpack.user_id as userId,backpack.pet_id as petId,backpack.id as bpkId
-        from toiletries join backpack on toiletries.id=backpack.real_prop_id
+    <select id="getDrugByUserAndPetId" resultMap="backpackDTOMap">
+        select drug.id as propId,drug.name,drug.effect,drug.pic,drug.use_level as useLevel,backpack.amount,backpack.user_id as userId,backpack.pet_id as petId,backpack.id as bpkId
+        from drug join backpack on drug.id=backpack.real_prop_id
         where backpack.type=1 and backpack.user_id=#{userId} and backpack.pet_id=#{petId}
     </select>
 
-    <select id="getToiletriesById" resultMap="baseResultMap">
-        select * from toiletries where id=#{toiletriesId}
+    <select id="getDrugById" resultMap="baseResultMap">
+        select * from drug where id=#{drugId}
     </select>
 </mapper>

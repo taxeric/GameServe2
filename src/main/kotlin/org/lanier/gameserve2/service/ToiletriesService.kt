@@ -13,4 +13,6 @@ class ToiletriesService(
 ) {
 
     fun getToiletriesById(toiletriesId: Int) = mapper.getToiletriesById(toiletriesId)
+
+    fun getToiletriesByUserAndPetId(userId: Int, petId: Int) = mapper.getToiletriesByUserAndPetId(userId, petId)
 }
