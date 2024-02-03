@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanier.gameserve2.mapper.DrugMapper">
+
+    <resultMap id="baseResultMap" type="org.lanier.gameserve2.entity.articles.Drug">
+        <id column="id" property="toiletriesId"/>
+        <result column="name" property="name"/>
+        <result column="effect" property="effect"/>
+        <result column="cost" property="cost"/>
+        <result column="value" property="value"/>
+        <result column="use_level" property="useLevel"/>
+        <result column="pic" property="pic"/>
+    </resultMap>
+
+    <resultMap id="backpackDTOMap" type="org.lanier.gameserve2.entity.dto.BackpackDTO">
+        <result column="propId" property="propId" />
+        <result column="name" property="name" />
+        <result column="effect" property="effect" />
+        <result column="pic" property="pic" />
+        <result column="useLevel" property="useLevel" />
+        <result column="LE" property="LE" />
+        <result column="amount" property="amount" />
+        <result column="userId" property="userId" />
+        <result column="petId" property="petId" />
+        <result column="bpkId" property="bpkId" />
+    </resultMap>
+
+    <select id="getDrugByUserAndPetId" resultMap="backpackDTOMap">
+        select drug.id as propId,drug.name,drug.effect,drug.pic,drug.use_level as useLevel,backpack.amount,backpack.user_id as userId,backpack.pet_id as petId,backpack.id as bpkId
+        from drug join backpack on drug.id=backpack.real_prop_id
+        where backpack.type=1 and backpack.user_id=#{userId} and backpack.pet_id=#{petId}
+    </select>
+
+    <select id="getDrugById" resultMap="baseResultMap">
+        select * from drug where id=#{drugId}
+    </select>
+</mapper>

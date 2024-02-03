@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanier.gameserve2.mapper.FoodMapper">
+
+    <resultMap id="baseResultMap" type="org.lanier.gameserve2.entity.articles.Food">
+        <id column="id" property="foodId"/>
+        <result column="name" property="name"/>
+        <result column="effect" property="effect"/>
+        <result column="cost" property="cost"/>
+        <result column="value" property="value"/>
+        <result column="season" property="season"/>
+        <result column="use_level" property="useLevel"/>
+        <result column="pic" property="pic"/>
+        <result column="l_e" property="LE"/>
+    </resultMap>
+
+    <resultMap id="backpackDTOMap" type="org.lanier.gameserve2.entity.dto.BackpackDTO">
+        <result column="propId" property="propId" />
+        <result column="name" property="name" />
+        <result column="effect" property="effect" />
+        <result column="pic" property="pic" />
+        <result column="useLevel" property="useLevel" />
+        <result column="LE" property="LE" />
+        <result column="amount" property="amount" />
+        <result column="userId" property="userId" />
+        <result column="petId" property="petId" />
+        <result column="bpkId" property="bpkId" />
+    </resultMap>
+
+    <select id="getFoodsByUserAndPetId" resultMap="backpackDTOMap">
+        select foods.id as propId,foods.name,foods.effect,foods.pic,foods.use_level as useLevel,foods.l_e as LE,backpack.amount,backpack.user_id as userId,backpack.pet_id as petId,backpack.id as bpkId
+        from foods join backpack on foods.id=backpack.real_prop_id
+        where backpack.type=1 and backpack.user_id=#{userId} and backpack.pet_id=#{petId}
+    </select>
+
+    <select id="getFoodById" resultMap="baseResultMap">
+        select * from foods where id=#{foodId}
+    </select>
+</mapper>
