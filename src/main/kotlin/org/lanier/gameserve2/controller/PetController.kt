@@ -4,12 +4,10 @@ import org.lanier.gameserve2.base.BaseModel
 import org.lanier.gameserve2.cache.CommonCaches
 import org.lanier.gameserve2.entity.Pet
 import org.lanier.gameserve2.entity.PropType
+import org.lanier.gameserve2.entity.articles.Drug
 import org.lanier.gameserve2.entity.articles.Food
 import org.lanier.gameserve2.entity.articles.Toiletries
-import org.lanier.gameserve2.service.BackpackService
-import org.lanier.gameserve2.service.FoodService
-import org.lanier.gameserve2.service.PetService
-import org.lanier.gameserve2.service.ToiletriesService
+import org.lanier.gameserve2.service.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -23,6 +21,7 @@ class PetController(
     private val bpkService: BackpackService,
     private val toiletriesService: ToiletriesService,
     private val foodService: FoodService,
+    private val drugService: DrugService,
 ) {
 
     @PostMapping("/create")
@@ -192,6 +191,59 @@ class PetController(
         }
         petService.updateStatusOfCleanliness(mPetId, needConsume.second)
         return BaseModel.success(true, message = "宠物已经洗干净啦~")
+    }
+
+    @PostMapping("/medicate")
+    fun medicate(
+        @RequestParam("petId") petId: Int,
+        @RequestParam("userId") userId: Int,
+        @RequestParam("drugId") drugId: Int,
+    ) : BaseModel<Boolean> {
+        val myBPKInfos = bpkService.findPropById(
+            userId = userId,
+            petId = petId,
+            propId = drugId,
+            propType = PropType.DRUG,
+        )
+        if (myBPKInfos.isEmpty()) {
+            return BaseModel.failureBoolean(message = "没有指定药品哦~")
+        }
+        if (myBPKInfos.size > 1) {
+            return BaseModel.failureBoolean(message = "好像出错了~")
+        }
+        val pet = getPet(petId)!!
+        val amount = myBPKInfos[0].amount // 背包数量
+        val mValue = if (CommonCaches.drug.contains(drugId)) {
+            CommonCaches.drug[drugId]!!.value
+        } else {
+            val mDrugs = drugService.getDrugById(drugId)
+            if (mDrugs.isEmpty()) {
+                return BaseModel.failureBoolean(message = "没有对应药品哦~")
+            }
+            val kFood = mDrugs[0]
+            CommonCaches.drug[drugId] = kFood
+            kFood.value
+        } // 每个用品增加清洁度
+        val curSatiety = pet.healthy // 当前饱食度
+        val needConsume = calcConsumeAmount(1, amount, mValue, curSatiety, Drug.MAX_HEALTHY) // 实际需要消耗的物品数量
+        if (needConsume.first < 0) {
+            return BaseModel.failureBoolean(message = "数量不够哦~")
+        }
+        if (needConsume.first == 0) {
+            return BaseModel.success(message = "宠物很健康, 不需要吃药哦~")
+        }
+        val success = bpkService.consume(
+            userId = userId,
+            petId = petId,
+            propId = drugId,
+            propType = PropType.DRUG,
+            needConsume.first
+        )
+        if (!success) {
+            return BaseModel.failureBoolean(message = "好像出错了~")
+        }
+        petService.updateStatusOfHealthy(petId, needConsume.second)
+        return BaseModel.success(true, message = "宠物吃完药已经好啦~")
     }
 
     /**

@@ -18,4 +18,6 @@ class PetService(
     fun updateStatusOfSatiety(petId: Int, newValue: Int) = mapper.updateStatusOfSatiety(petId, newValue)
 
     fun updateStatusOfCleanliness(petId: Int, newValue: Int) = mapper.updateStatusOfCleanliness(petId, newValue)
+
+    fun updateStatusOfHealthy(petId: Int, newValue: Int) = mapper.updateStatusOfHealthy(petId, newValue)
 }
