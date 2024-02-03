@@ -7,4 +7,10 @@ data class Food(
      */
     val foodId: Int = 0,
 
-) : CommonArticles()
+) : CommonArticles() {
+
+    companion object {
+
+        const val MAX_SATIETY = 100
+    }
+}

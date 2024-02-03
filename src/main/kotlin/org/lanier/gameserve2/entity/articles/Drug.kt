@@ -9,4 +9,10 @@ data class Drug(
      * 药品id
      */
     val drugId: Int
-) : CommonArticles()
+) : CommonArticles() {
+
+    companion object {
+
+        const val MAX_HEALTHY = 100
+    }
+}

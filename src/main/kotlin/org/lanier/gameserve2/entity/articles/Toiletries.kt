@@ -9,4 +9,10 @@ data class Toiletries(
      * 洗漱用品id
      */
     val toiletriesId: Int
-) : CommonArticles()
+) : CommonArticles() {
+
+    companion object {
+
+        const val MAX_CLEANLINESS = 100
+    }
+}
