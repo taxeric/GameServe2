@@ -18,6 +18,6 @@
     </select>
 
     <update id="consume">
-        update backpack set amount=#{consume} where user_id=#{userId} and pet_id=#{petId} and real_prop_id=#{propId} and type=#{propType}
+        update backpack set amount=amount - #{consume} where user_id=#{userId} and pet_id=#{petId} and real_prop_id=#{propId} and type=#{propType}
     </update>
 </mapper>

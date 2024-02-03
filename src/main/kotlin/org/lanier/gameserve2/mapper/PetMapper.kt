@@ -11,4 +11,6 @@ interface PetMapper {
     fun getPetById(petId: Int) : List<Pet>
 
     fun updateStatusOfSatiety(petId: Int, newValue: Int) : Int
+
+    fun updateStatusOfCleanliness(petId: Int, newValue: Int) : Int
 }
