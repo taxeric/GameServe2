@@ -22,6 +22,7 @@ interface SignInConfigMapper {
         remark: String,
         year: Int,
         month: Int,
+        day: Int,
         propId: Int,
         propType: Int
     ) : Int

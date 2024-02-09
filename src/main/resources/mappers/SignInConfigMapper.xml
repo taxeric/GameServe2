@@ -29,9 +29,9 @@
     </select>
 
     <insert id="addReward">
-        insert into sign_in_config (category, amount, remark, year, month, prop_id, prop_type) values (#{category}, #{amount},
+        insert into sign_in_config (category, amount, remark, year, month, day, prop_id, prop_type) values (#{category}, #{amount},
                                                                                                        #{remark}, #{year},
-                                                                                                       #{month}, #{propId},
-                                                                                                       #{propType})
+                                                                                                       #{month}, #{day},
+                                                                                                       #{propId}, #{propType})
     </insert>
 </mapper>

@@ -15,7 +15,7 @@ import java.util.Calendar
  * 签到
  */
 @RestController
-@RequestMapping("/sign")
+@RequestMapping("/sign-in")
 class SignInController(
     private val propService: PropService,
     private val signInConfigService: SignInConfigService,
@@ -50,6 +50,7 @@ class SignInController(
     fun addReward(
         @RequestParam("year") year: Int,
         @RequestParam("month") month: Int,
+        @RequestParam("day") day: Int,
         @RequestParam("amount") amount: Int,
         @RequestParam("propId") propId: Int? = -1,
         @RequestParam("propType") propType: Int? = -1,
@@ -73,7 +74,7 @@ class SignInController(
                 if (propId == null || propType == null) {
                     return BaseModel.failureBoolean(message = "请确定道具类型~")
                 }
-                val bpid = propService.getProp(propType, propId) // 找到主键
+                val bpid = propService.getPropId(propType, propId) // 找到主键
                 if (bpid < 0) {
                     return BaseModel.failureBoolean(message = "没有找到指定类型的道具~")
                 }
@@ -82,6 +83,7 @@ class SignInController(
                     amount = amount,
                     year = year,
                     month = month,
+                    day = day,
                     propId = propId,
                     propType = propType,
                     remark = remark?:"签到奖励~~~"
