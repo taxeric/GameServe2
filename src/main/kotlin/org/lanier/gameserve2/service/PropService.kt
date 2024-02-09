@@ -8,7 +8,7 @@ class PropService(
     private val mapper: PropMapper
 ) {
 
-    fun getProp(propType: Int, propId: Int) = mapper.getProp(propType, propId)
+    fun getPropId(propType: Int, realPropId: Int) = mapper.getPropId(propType, realPropId)
 
-    fun addProp(propType: Int, propId: Int) = mapper.addProp(propType, propId)
+    fun addProp(propType: Int, realPropId: Int) = mapper.addProp(propType, realPropId)
 }

@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper
 @Mapper
 interface PropMapper {
 
-    fun getProp(propType: Int, propId: Int) : Int
+    fun getPropId(propType: Int, realPropId: Int) : Int
 
-    fun addProp(propType: Int, propId: Int) : Int
+    fun addProp(propType: Int, realPropId: Int) : Int
 }

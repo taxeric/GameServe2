@@ -17,4 +17,14 @@ data class Prop(
      * 道具类型
      */
     val type: Int = 0,
+
+    /**
+     * 道具名称
+     */
+    val propName: String = "",
+
+    /**
+     * 道具图片链接
+     */
+    val propPic: String = "",
 )
