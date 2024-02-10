@@ -4,11 +4,13 @@ package org.lanier.gameserve2.entity
  * 道具类型
  */
 data class PropType(
-    val id: Int = ACTIVITY,
-    val name: String = "",
+    val typeId: Int = ACTIVITY,
+    val typeName: String = "",
 ) {
 
     companion object {
+
+        // TIP 以下为预置类型
 
         /**
          * 食物

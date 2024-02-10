@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanier.gameserve2.mapper.PropTypeMapper">
+
+    <resultMap id="baseResultMap" type="org.lanier.gameserve2.entity.PropType">
+        <id column="id" property="typeId"/>
+        <result column="name" property="typeName"/>
+    </resultMap>
+
+    <select id="getAllType" resultMap="baseResultMap">
+        select * from prop_type
+    </select>
+
+    <insert id="addType">
+        insert into prop_type (name) values (#{name})
+    </insert>
+</mapper>
