@@ -38,4 +38,8 @@
     <update id="updateStatusOfCleanliness">
         update pets set cleanliness=#{newValue} where id=#{petId}
     </update>
+
+    <update id="updateStatusOfHealthy">
+        update pets set healthy=#{newValue} where id=#{petId}
+    </update>
 </mapper>
