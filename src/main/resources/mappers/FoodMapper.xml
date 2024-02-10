@@ -38,4 +38,12 @@
     <select id="getFoodById" resultMap="baseResultMap">
         select * from foods where id=#{foodId}
     </select>
+
+    <select id="getAllFoods" resultMap="baseResultMap">
+        select * from foods
+    </select>
+
+    <insert id="addFood" parameterType="org.lanier.gameserve2.entity.articles.Food" useGeneratedKeys="true" keyProperty="foodId">
+        insert into foods (name, effect, cost, value, season, use_level, pic, l_e) values (#{name},#{effect},#{cost},#{value},#{season},#{useLevel},#{pic},#{LE});
+    </insert>
 </mapper>

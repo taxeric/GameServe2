@@ -1,5 +1,6 @@
 package org.lanier.gameserve2.service
 
+import org.lanier.gameserve2.entity.articles.Food
 import org.lanier.gameserve2.mapper.FoodMapper
 import org.springframework.stereotype.Service
 
@@ -15,4 +16,8 @@ class FoodService(
     fun getFoodById(foodId: Int) = mapper.getFoodById(foodId)
 
     fun getFoodsByUserAndPetId(userId: Int, petId: Int) = mapper.getFoodsByUserAndPetId(userId, petId)
+
+    fun getAllFoods() = mapper.getAllFoods()
+
+    fun addFood(food: Food) = mapper.addFood(food)
 }

@@ -14,4 +14,8 @@ interface FoodMapper {
     fun getFoodById(foodId: Int) : List<Food>
 
     fun getFoodsByUserAndPetId(userId: Int, petId: Int) : List<BackpackDTO>
+
+    fun getAllFoods() : List<Food>
+
+    fun addFood(food: Food) : Int
 }
