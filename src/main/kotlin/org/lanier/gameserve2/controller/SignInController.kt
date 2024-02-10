@@ -66,36 +66,80 @@ class SignInController(
             return BaseModel.failureBoolean(message = "月份有误")
         }
         if (category == null) {
-            // TODO 添加货币操作
+            return addCurrencyToSignInConfig(amount, year, month, day, remark)
         } else {
-            if (category == 1) {
-                // TODO 添加货币操作
-            } else if (category == 2) {
-                if (propId == null || propType == null) {
-                    return BaseModel.failureBoolean(message = "请确定道具类型~")
+            return when (category) {
+                1 -> {
+                    addCurrencyToSignInConfig(amount, year, month, day, remark)
                 }
-                val bpid = propService.getPropId(propType, propId) // 找到主键
-                if (bpid < 0) {
-                    return BaseModel.failureBoolean(message = "没有找到指定类型的道具~")
+
+                2 -> {
+                    addPropToSignInConfig(propId, propType, amount, year, month, day, remark)
                 }
-                val success = signInConfigService.addReward(
-                    category = 2,
-                    amount = amount,
-                    year = year,
-                    month = month,
-                    day = day,
-                    propId = propId,
-                    propType = propType,
-                    remark = remark?:"签到奖励~~~"
-                )
-                if (success) {
-                    return BaseModel.success(data = true)
+
+                else -> {
+                    BaseModel.failureBoolean(message = "无法添加未知类型~")
                 }
-                return BaseModel.failureBoolean(message = "设置失败 ,,Ծ‸Ծ,,")
-            } else {
-                return BaseModel.failureBoolean(message = "无法添加未知类型~")
             }
         }
-        return BaseModel.success(data = true)
+    }
+
+    /**
+     * 签到奖励 - 货币
+     */
+    private fun addCurrencyToSignInConfig(
+        amount: Int,
+        year: Int,
+        month: Int,
+        day: Int,
+        remark: String? = null
+    ) : BaseModel<Boolean> {
+        val success = signInConfigService.addReward(
+            category = 1,
+            amount = amount,
+            year = year,
+            month = month,
+            day = day,
+            remark = remark?:"签到奖励~~~"
+        )
+        if (success) {
+            return BaseModel.success(data = true)
+        }
+        return BaseModel.failureBoolean(message = "设置失败了  (;° ロ°)")
+    }
+
+    /**
+     * 签到奖励 - 道具
+     */
+    private fun addPropToSignInConfig(
+        propId: Int?,
+        propType: Int?,
+        amount: Int,
+        year: Int,
+        month: Int,
+        day: Int,
+        remark: String? = null
+    ) : BaseModel<Boolean> {
+        if (propId == null || propType == null) {
+            return BaseModel.failureBoolean(message = "请确定道具类型~")
+        }
+        val bpid = propService.getPropId(propType, propId) // 找到主键
+        if (bpid < 0) {
+            return BaseModel.failureBoolean(message = "没有找到指定类型的道具~")
+        }
+        val success = signInConfigService.addReward(
+            category = 2,
+            amount = amount,
+            year = year,
+            month = month,
+            day = day,
+            propId = propId,
+            propType = propType,
+            remark = remark?:"签到奖励~~~"
+        )
+        if (success) {
+            return BaseModel.success(data = true)
+        }
+        return BaseModel.failureBoolean(message = "设置失败 ,,Ծ‸Ծ,,")
     }
 }

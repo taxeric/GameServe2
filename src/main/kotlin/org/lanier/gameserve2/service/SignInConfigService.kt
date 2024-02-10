@@ -24,7 +24,7 @@ class SignInConfigService(
         year: Int,
         month: Int,
         day: Int,
-        propId: Int,
-        propType: Int
+        propId: Int? = null,
+        propType: Int? = null
     ) = mapper.addReward(category, amount, remark, year, month, day, propId, propType) > 0
 }

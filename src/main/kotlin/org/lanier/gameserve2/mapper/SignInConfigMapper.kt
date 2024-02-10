@@ -23,7 +23,7 @@ interface SignInConfigMapper {
         year: Int,
         month: Int,
         day: Int,
-        propId: Int,
-        propType: Int
+        propId: Int?,
+        propType: Int?
     ) : Int
 }
