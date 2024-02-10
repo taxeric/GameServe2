@@ -1,5 +1,6 @@
 package org.lanier.gameserve2.service
 
+import org.lanier.gameserve2.entity.articles.Drug
 import org.lanier.gameserve2.mapper.DrugMapper
 import org.springframework.stereotype.Service
 
@@ -15,4 +16,8 @@ class DrugService(
     fun getDrugById(drugId: Int) = mapper.getDrugById(drugId)
 
     fun getDrugByUserAndPetId(userId: Int, petId: Int) = mapper.getDrugByUserAndPetId(userId, petId)
+
+    fun getAllDrugs() = mapper.getAllDrugs()
+
+    fun addDrug(drug: Drug) = mapper.addDrug(drug)
 }

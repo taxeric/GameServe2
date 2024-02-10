@@ -14,4 +14,8 @@ interface DrugMapper {
     fun getDrugById(drugId: Int) : List<Drug>
 
     fun getDrugByUserAndPetId(userId: Int, petId: Int) : List<BackpackDTO>
+
+    fun getAllDrugs() : List<Drug>
+
+    fun addDrug(drug: Drug) : Int
 }

@@ -36,4 +36,12 @@
     <select id="getDrugById" resultMap="baseResultMap">
         select * from drug where id=#{drugId}
     </select>
+
+    <select id="getAllDrugs" resultMap="baseResultMap">
+        select * from drug
+    </select>
+
+    <insert id="addDrug" parameterType="org.lanier.gameserve2.entity.articles.Drug" useGeneratedKeys="true" keyProperty="drugId">
+        insert into drug (name, effect, cost, value, use_level, pic) values (#{name},#{effect},#{cost},#{value},#{useLevel},#{pic});
+    </insert>
 </mapper>
