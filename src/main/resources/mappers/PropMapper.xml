@@ -17,6 +17,6 @@
     </select>
 
     <insert id="addProp">
-        insert into prop (type, real_prop_id, prop_name, prop_pic) values (#{propType},#{propId},#{propName},#{propPic})
+        insert into prop (type, real_prop_id, prop_name, prop_pic) values (#{propType},#{realPropId},#{propName},#{propPic})
     </insert>
 </mapper>

@@ -7,5 +7,5 @@ interface PropMapper {
 
     fun getPropId(propType: Int, realPropId: Int) : Int
 
-    fun addProp(propType: Int, realPropId: Int) : Int
+    fun addProp(propType: Int, realPropId: Int, propName: String, propPic: String) : Int
 }

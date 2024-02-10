@@ -10,5 +10,6 @@ class PropService(
 
     fun getPropId(propType: Int, realPropId: Int) = mapper.getPropId(propType, realPropId)
 
-    fun addProp(propType: Int, realPropId: Int) = mapper.addProp(propType, realPropId)
+    fun addProp(propType: Int, realPropId: Int, propName: String, propPic: String)
+    = mapper.addProp(propType, realPropId, propName, propPic) > 0
 }

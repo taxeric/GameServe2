@@ -19,5 +19,5 @@ class ToiletriesService(
 
     fun getAllToiletries() = mapper.getAllToiletries()
 
-    fun addToiletries(toiletries: Toiletries) = mapper.addToiletries(toiletries) > 0
+    fun addToiletries(toiletries: Toiletries) = mapper.addToiletries(toiletries)
 }
