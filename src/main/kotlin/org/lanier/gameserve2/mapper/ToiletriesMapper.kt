@@ -14,4 +14,8 @@ interface ToiletriesMapper {
     fun getToiletriesById(toiletriesId: Int) : List<Toiletries>
 
     fun getToiletriesByUserAndPetId(userId: Int, petId: Int) : List<BackpackDTO>
+
+    fun getAllToiletries() : List<Toiletries>
+
+    fun addToiletries(toiletries: Toiletries) : Int
 }

@@ -19,5 +19,5 @@ class DrugService(
 
     fun getAllDrugs() = mapper.getAllDrugs()
 
-    fun addDrug(drug: Drug) = mapper.addDrug(drug)
+    fun addDrug(drug: Drug) = mapper.addDrug(drug) > 0
 }

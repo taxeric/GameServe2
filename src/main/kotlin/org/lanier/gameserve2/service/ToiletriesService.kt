@@ -1,5 +1,6 @@
 package org.lanier.gameserve2.service
 
+import org.lanier.gameserve2.entity.articles.Toiletries
 import org.lanier.gameserve2.mapper.ToiletriesMapper
 import org.springframework.stereotype.Service
 
@@ -15,4 +16,8 @@ class ToiletriesService(
     fun getToiletriesById(toiletriesId: Int) = mapper.getToiletriesById(toiletriesId)
 
     fun getToiletriesByUserAndPetId(userId: Int, petId: Int) = mapper.getToiletriesByUserAndPetId(userId, petId)
+
+    fun getAllToiletries() = mapper.getAllToiletries()
+
+    fun addToiletries(toiletries: Toiletries) = mapper.addToiletries(toiletries) > 0
 }

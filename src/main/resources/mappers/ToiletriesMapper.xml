@@ -36,4 +36,12 @@
     <select id="getToiletriesById" resultMap="baseResultMap">
         select * from toiletries where id=#{toiletriesId}
     </select>
+
+    <select id="getAllToiletries" resultMap="baseResultMap">
+        select * from toiletries
+    </select>
+
+    <insert id="addToiletries" parameterType="org.lanier.gameserve2.entity.articles.Toiletries" useGeneratedKeys="true" keyProperty="toiletriesId">
+        insert into toiletries (name, effect, cost, value, use_level, pic) values (#{name},#{effect},#{cost},#{value},#{useLevel},#{pic});
+    </insert>
 </mapper>
