@@ -1,15 +1,18 @@
 package org.lanier.gameserve2.controller
 
 import org.lanier.gameserve2.base.BaseModel
+import org.lanier.gameserve2.entity.UserSignInLog
 import org.lanier.gameserve2.entity.dto.SignInConfigDTO
 import org.lanier.gameserve2.service.PropService
 import org.lanier.gameserve2.service.SignInConfigService
+import org.lanier.gameserve2.service.UserSignInService
+import org.lanier.gameserve2.utils.DateUtil
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.util.Calendar
 
 /**
  * 签到
@@ -18,6 +21,7 @@ import java.util.Calendar
 @RequestMapping("/sign-in")
 class SignInController(
     private val propService: PropService,
+    private val signInService: UserSignInService,
     private val signInConfigService: SignInConfigService,
 ) {
 
@@ -57,13 +61,11 @@ class SignInController(
         @RequestParam("category") category: Int? = -1,
         @RequestParam("remark") remark: String? = "签到奖励~~~"
     ) : BaseModel<Boolean> {
-        val curYear = Calendar.getInstance().get(Calendar.YEAR)
-        if (year < curYear) {
-            return BaseModel.failureBoolean(message = "年份有误")
+        if (DateUtil.isCurrentYear(year).not()) {
+            return BaseModel.failureBoolean(message = "年份有误哦~")
         }
-        val curMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
-        if (month < curMonth) {
-            return BaseModel.failureBoolean(message = "月份有误")
+        if (DateUtil.isCurrentMonth(month).not()) {
+            return BaseModel.failureBoolean(message = "月份有误哦~")
         }
         if (category == null) {
             return addCurrencyToSignInConfig(amount, year, month, day, remark)
@@ -82,6 +84,40 @@ class SignInController(
                 }
             }
         }
+    }
+
+    @GetMapping("/get-mine-logs")
+    fun getMineSignInLogs(
+        @RequestParam("userId") userId: Int,
+        @RequestParam("petId") petId: Int,
+        @RequestParam("year") year: Int,
+        @RequestParam("month") month: Int,
+    ) : BaseModel<List<UserSignInLog>> {
+        if (userId < 0 || petId < 0) {
+            return BaseModel.failure(message = "没有找到id耶～")
+        }
+        if (DateUtil.isCurrentYear(year).not()) {
+            return BaseModel.failure(message = "年份有误哦~")
+        }
+        if (DateUtil.isCurrentMonth(month).not()) {
+            return BaseModel.failure(message = "月份有误哦~")
+        }
+        val logs = signInService.getLogsByUserAndPetIdAndYearMonth(userId, petId, year, month)
+        return BaseModel.success(data = logs)
+    }
+
+    @PostMapping("/sign-in")
+    fun userSignIn(
+        @RequestBody log: UserSignInLog
+    ) : BaseModel<Boolean> {
+       val effectRows = signInService.addLog(log)
+        if (effectRows > 0) {
+            if (log.logId > 0) {
+                return BaseModel.success(data = true)
+            }
+            return BaseModel.failureBoolean(message = "签到失败了...www")
+        }
+        return BaseModel.failureBoolean(message = "签到失败了...(；¬д¬)")
     }
 
     /**

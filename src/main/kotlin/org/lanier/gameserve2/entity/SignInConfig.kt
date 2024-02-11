@@ -6,7 +6,7 @@ package org.lanier.gameserve2.entity
  */
 data class SignInConfig(
     val id: Int = 0,
-    val category: Int = CATEGORY_PROP,
+    val category: Int = CATEGORY_NONE,
     val amount: Int = 1,
     val remark: String = "",
     val year: Int = 0,
@@ -19,5 +19,6 @@ data class SignInConfig(
 
         const val CATEGORY_CURRENCY = 1
         const val CATEGORY_PROP = 2
+        const val CATEGORY_NONE = 3
     }
 }
