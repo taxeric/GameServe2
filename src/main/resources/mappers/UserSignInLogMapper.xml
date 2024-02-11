@@ -19,10 +19,10 @@
     </resultMap>
 
     <select id="getLogsByUserAndPetIdAndYearMonth" resultMap="baseResultMap">
-        select * from user_sign_in_log where user_id=#{userId} and pet_id=#{petId} and year=#{year} and month=#{month}
+        select * from user_sign_in_log where user_id=#{userId} and pet_id=#{petId} and year=#{year} and month=#{month} limit #{pageSize} offset #{offset}
     </select>
 
-    <insert id="addLog" parameterType="baseResultMap" useGeneratedKeys="true" keyProperty="logId">
+    <insert id="addLog" parameterType="org.lanier.gameserve2.entity.UserSignInLog" useGeneratedKeys="true" keyProperty="logId">
         insert into user_sign_in_log (user_id, pet_id, category, reward_id, reward_type, sign_in_time, sign_in_type, year, month, day)
         VALUES (#{userId}, #{petId}, #{category}, #{rewardId}, #{rewardType}, #{signInTime}, #{signInType}, #{year}, #{month}, #{day})
     </insert>

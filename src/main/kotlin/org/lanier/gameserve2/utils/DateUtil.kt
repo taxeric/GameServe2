@@ -10,11 +10,16 @@ object DateUtil {
 
     fun isCurrentYear(year: Int) : Boolean {
         val curYear = Calendar.getInstance().get(Calendar.YEAR)
-        return year != curYear
+        return year == curYear
     }
 
     fun isCurrentMonth(month: Int) : Boolean {
-        val curMonth = Calendar.getInstance().get(Calendar.YEAR)
-        return month != curMonth
+        val curMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
+        return month == curMonth
+    }
+
+    fun isCurrentDay(day: Int) : Boolean {
+        val curDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        return day == curDay
     }
 }

@@ -16,7 +16,8 @@ class UserSignInService(
     /**
      * 获取签到信息
      */
-    fun getLogsByUserAndPetIdAndYearMonth(userId: Int, petId: Int, year: Int, month: Int) = mapper.getLogsByUserAndPetIdAndYearMonth(userId, petId, year, month)
+    fun getLogsByUserAndPetIdAndYearMonth(userId: Int, petId: Int, year: Int, month: Int, offset: Int, pageSize: Int = 10)
+    = mapper.getLogsByUserAndPetIdAndYearMonth(userId, petId, year, month, offset, pageSize)
 
     /**
      * 签到

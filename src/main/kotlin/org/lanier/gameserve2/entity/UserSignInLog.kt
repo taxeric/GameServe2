@@ -1,6 +1,6 @@
 package org.lanier.gameserve2.entity
 
-import java.util.Date
+import java.sql.Timestamp
 
 /**
  * Created by 黄瓜
@@ -15,7 +15,7 @@ data class UserSignInLog(
     val category: Int = 1, // 1货币, 2道具
     val rewardId: Int? = 0,
     val rewardType: Int? = 0,
-    val signInTime: Date? = null,
+    val signInTime: Timestamp? = null,
     val signInType: Int = 1, // 1正常签到, 2补签
     val year: Int = 0,
     val month: Int = 0,

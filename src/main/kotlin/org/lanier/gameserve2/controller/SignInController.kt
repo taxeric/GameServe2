@@ -1,6 +1,7 @@
 package org.lanier.gameserve2.controller
 
 import org.lanier.gameserve2.base.BaseModel
+import org.lanier.gameserve2.entity.SignInConfig
 import org.lanier.gameserve2.entity.UserSignInLog
 import org.lanier.gameserve2.entity.dto.SignInConfigDTO
 import org.lanier.gameserve2.service.PropService
@@ -71,13 +72,15 @@ class SignInController(
             return addCurrencyToSignInConfig(amount, year, month, day, remark)
         } else {
             return when (category) {
-                1 -> {
+                SignInConfig.CATEGORY_CURRENCY -> {
                     addCurrencyToSignInConfig(amount, year, month, day, remark)
                 }
 
-                2 -> {
+                SignInConfig.CATEGORY_PROP -> {
                     addPropToSignInConfig(propId, propType, amount, year, month, day, remark)
                 }
+
+                // TODO 无奖励的普通签到
 
                 else -> {
                     BaseModel.failureBoolean(message = "无法添加未知类型~")
@@ -92,6 +95,8 @@ class SignInController(
         @RequestParam("petId") petId: Int,
         @RequestParam("year") year: Int,
         @RequestParam("month") month: Int,
+        @RequestParam("page") page: Int, // 从1开始
+        @RequestParam("pageSize") pageSize: Int? = 10,
     ) : BaseModel<List<UserSignInLog>> {
         if (userId < 0 || petId < 0) {
             return BaseModel.failure(message = "没有找到id耶～")
@@ -102,7 +107,12 @@ class SignInController(
         if (DateUtil.isCurrentMonth(month).not()) {
             return BaseModel.failure(message = "月份有误哦~")
         }
-        val logs = signInService.getLogsByUserAndPetIdAndYearMonth(userId, petId, year, month)
+        val mPage = if (page <= 0) {
+            1
+        } else page
+        val mPageSize = pageSize?: 10
+        val offset = (mPage - 1) * mPageSize
+        val logs = signInService.getLogsByUserAndPetIdAndYearMonth(userId, petId, year, month, offset, mPageSize)
         return BaseModel.success(data = logs)
     }
 
@@ -110,7 +120,14 @@ class SignInController(
     fun userSignIn(
         @RequestBody log: UserSignInLog
     ) : BaseModel<Boolean> {
-       val effectRows = signInService.addLog(log)
+        if (
+            DateUtil.isCurrentYear(log.year).not()
+            || DateUtil.isCurrentMonth(log.month).not()
+            || DateUtil.isCurrentDay(log.day).not()
+        ) {
+            return BaseModel.failureBoolean(message = "签到时间有误嗷 (=ﾟωﾟ)ﾉ")
+        }
+        val effectRows = signInService.addLog(log)
         if (effectRows > 0) {
             if (log.logId > 0) {
                 return BaseModel.success(data = true)
