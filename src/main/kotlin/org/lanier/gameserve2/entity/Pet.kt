@@ -73,4 +73,9 @@ data class Pet(
      * 当前种植等级id
      */
     val currentPlantLevelId: Int = 0,
+
+    /**
+     * 货币(小钱钱
+     */
+    val coin: Int = 0,
 )
