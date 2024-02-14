@@ -26,7 +26,10 @@ class UserController(
             return BaseModel.failure(message = "未找到用户~")
         }
         if (users.size == 1) {
-            return BaseModel.success(data = users[0])
+            val user = users[0].copy(
+                pets = getPets(users[0].userId)
+            )
+            return BaseModel.success(data = user)
         }
         return BaseModel.failure(message = "发生异常~")
     }
