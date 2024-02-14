@@ -63,4 +63,14 @@ data class Pet(
      * 阶段, 分为幼年, 少年, 成年
      */
     val phase: Int = 0,
+
+    /**
+     * 当前种植经验
+     */
+    val currentPlantExp: Int = 0,
+
+    /**
+     * 当前种植等级id
+     */
+    val currentPlantLevelId: Int = 0,
 )

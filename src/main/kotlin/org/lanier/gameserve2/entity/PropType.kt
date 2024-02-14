@@ -36,5 +36,15 @@ data class PropType(
          * 活动用品
          */
         const val ACTIVITY = 5
+
+        /**
+         * 种子
+         */
+        const val SEED = 6
+
+        /**
+         * 肥料
+         */
+        const val FERTILIZER = 7
     }
 }
