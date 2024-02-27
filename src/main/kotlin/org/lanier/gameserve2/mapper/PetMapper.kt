@@ -17,4 +17,11 @@ interface PetMapper {
     fun updateStatusOfCleanliness(petId: Int, newValue: Int) : Int
 
     fun updateStatusOfHealthy(petId: Int, newValue: Int) : Int
+
+    fun getPetCoin(petId: Int): Int
+
+    fun consumeCoin(coin: Int, petId: Int): Int
+    fun addCoin(coin: Int, petId: Int): Int
+
+    fun harvestCrop(plantLevelId: Int?, cropTotalExp: Int, petId: Int): Int
 }

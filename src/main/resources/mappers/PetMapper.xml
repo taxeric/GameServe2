@@ -19,6 +19,31 @@
         <result column="birthday" property="birthday"/>
     </resultMap>
 
+    <resultMap id="petDto" type="org.lanier.gameserve2.entity.dto.PetDto">
+        <id column="petId" property="petId"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="name"/>
+        <result column="currentPlantExp" property="currentPlantExp"/>
+        <result column="lackExp" property="lackExp"/>
+        <result column="coin" property="coin"/>
+        <result column="unlockedLandCount" property="unlockedLandCount"/>
+        <result column="usedLandCount" property="usedLandCount"/>
+        <result column="maxLandCount" property="maxLandCount"/>
+        <result column="age" property="age"/>
+        <result column="satiety" property="satiety"/>
+        <result column="cleanliness" property="cleanliness"/>
+        <result column="intelligence" property="intelligence"/>
+        <result column="muscle" property="muscle"/>
+        <result column="healthy" property="healthy"/>
+        <result column="emotion" property="emotion"/>
+        <result column="age" property="age"/>
+        <result column="birthday" property="birthday"/>
+        <association property="currentLevel" javaType="org.lanier.farm.entity.dto.PlantLevelDto">
+            <result column="plantLevel" property="plantLevel"/>
+            <result column="expRequired" property="expRequired"/>
+        </association>
+    </resultMap>
+
     <insert id="create" parameterType="org.lanier.gameserve2.entity.Pet" useGeneratedKeys="true" keyProperty="petId">
         insert into pets (name,user_id) values (#{name},#{userId});
     </insert>
@@ -41,5 +66,29 @@
 
     <update id="updateStatusOfHealthy">
         update pets set healthy=#{newValue} where id=#{petId}
+    </update>
+
+    <select id="getPetCoin">
+        select pets.coin
+        from pets
+        where pets.id=#{petId}
+    </select>
+
+    <update id="consumeCoin">
+        update pets set coin = coin - #{coin} where pets.id = #{petId}
+    </update>
+
+    <update id="addCoin">
+        update pets set coin = coin + #{coin} where pets.id = #{petId}
+    </update>
+
+    <update id="harvestCrop">
+        update
+            pets
+        set
+            pets.plant_level_id = #{plantLevelId},
+            pets.current_plant_exp = pets.current_plant_exp + #{cropTotalExp}
+        where
+            pets.id = #{petId}
     </update>
 </mapper>

@@ -1,7 +1,7 @@
 package org.lanier.gameserve2.controller
 
 import org.lanier.gameserve2.base.BaseModel
-import org.lanier.gameserve2.entity.dto.BackpackDTO
+import org.lanier.gameserve2.entity.dto.BackpackDto
 import org.lanier.gameserve2.service.BackpackService
 import org.lanier.gameserve2.service.DrugService
 import org.lanier.gameserve2.service.FoodService
@@ -28,7 +28,7 @@ class BackpackController(
     fun getBackpackFoodsInfo(
         @RequestParam("userId") userId: Int,
         @RequestParam("petId") petId: Int,
-    ) : BaseModel<List<BackpackDTO>> {
+    ) : BaseModel<List<BackpackDto>> {
         val dto = foodService.getFoodsByUserAndPetId(userId, petId)
         return BaseModel.success(
             data = dto
@@ -39,7 +39,7 @@ class BackpackController(
     fun getBackpackToiletriesInfo(
         @RequestParam("userId") userId: Int,
         @RequestParam("petId") petId: Int,
-    ) : BaseModel<List<BackpackDTO>>{
+    ) : BaseModel<List<BackpackDto>>{
         val toiletries = toiletriesService.getToiletriesByUserAndPetId(userId, petId)
         return BaseModel.success(
             data = toiletries
@@ -50,7 +50,7 @@ class BackpackController(
     fun getBackpackDrugsInfo(
         @RequestParam("userId") userId: Int,
         @RequestParam("petId") petId: Int,
-    ) : BaseModel<List<BackpackDTO>>{
+    ) : BaseModel<List<BackpackDto>>{
         val drugs = drugService.getDrugByUserAndPetId(userId, petId)
         return BaseModel.success(
             data = drugs

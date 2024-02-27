@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanier.gameserve2.mapper.PropTypeMapper">
+
+    <resultMap id="bckDto" type="org.lanier.farm.entity.dto.MarketDto">
+        <id column="marketItemId" property="marketItemId"/>
+        <result column="realPropId" property="realPropId"/>
+        <result column="name" property="name"/>
+        <result column="desc" property="desc"/>
+        <result column="price" property="price"/>
+        <result column="type" property="type"/>
+    </resultMap>
+
+    <select id="getSeedTotal">
+        select count(*) as total from market where type=6
+    </select>
+
+    <select id="getFertilizerTotal">
+        select count(*) as total from market where type=7
+    </select>
+
+    <!--    获取商店种子-->
+    <select id="getSeeds" resultMap="bckDto">
+        select market.id as marketItemId, market.name, market.price, market.type as type, market.real_prop_id as realPropId from market where type=6 limit #{pageSize} offset #{offset};
+    </select>
+
+    <!--    获取商店肥料-->
+    <select id="getFertilizer" resultMap="bckDto">
+        select market.id as marketItemId, market.name, market.effect as `desc`, market.price, market.type as type, market.real_prop_id as realPropId from market where type=7 limit #{pageSize} offset #{offset};
+    </select>
+
+    <select id="getItemById" resultMap="bckDto">
+        select market.name, market.price, market.type as type, market.real_prop_id as realPropId from market where market.id=#{itemId};
+    </select>
+</mapper>

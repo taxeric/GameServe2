@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanier.gameserve2.mapper.LandMapper">
+
+    <resultMap id="seedDtoMap" type="org.lanier.gameserve2.entity.dto.SeedDto">
+        <id column="seedId" property="seedId"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="season" property="season"/>
+        <result column="harvestAmount" property="harvestAmount"/>
+        <result column="seedMaxHarvestCount" property="seedMaxHarvestCount"/>
+        <result column="totalHarvestExp" property="totalHarvestExp"/>
+        <result column="harvestExp" property="harvestExp"/>
+        <result column="stageInfo" property="stageInfo"/>
+    </resultMap>
+
+    <resultMap id="plantLevelDto" type="org.lanier.gameserve2.entity.dto.PlantLevelDto">
+        <result column="plantLevel" property="plantLevel"/>
+        <result column="expRequired" property="expRequired"/>
+    </resultMap>
+
+    <resultMap id="landDtoMap" type="org.lanier.gameserve2.entity.dto.LandDto">
+        <id column="landId" property="landId"/>
+        <result column="petId" property="petId"/>
+        <result column="bpkId" property="bpkId"/>
+        <result column="cropId" property="cropId"/>
+        <result column="status" property="status"/>
+        <result column="maxStage" property="maxStage"/>
+        <result column="currentStage" property="currentStage"/>
+        <result column="nextStageStartTime" property="nextStageStartTime"/>
+        <result column="nextStageAllTime" property="nextStageAllTime"/>
+        <result column="nextStageRemainTime" property="nextStageRemainTime"/>
+        <result column="lastHarvestTime" property="lastHarvestTime"/>
+        <result column="maxHarvestCount" property="maxHarvestCount"/>
+        <result column="harvestCount" property="harvestCount"/>
+        <association property="seed" javaType="org.lanier.farm.entity.dto.SeedDto">
+            <id column="seedId" property="seedId"/>
+            <result column="name" property="name"/>
+            <result column="type" property="type"/>
+            <result column="season" property="season"/>
+            <result column="harvestAmount" property="harvestAmount"/>
+            <result column="seedMaxHarvestCount" property="seedMaxHarvestCount"/>
+            <result column="totalHarvestExp" property="totalHarvestExp"/>
+            <result column="harvestExp" property="harvestExp"/>
+            <result column="stageInfo" property="stageInfo"/>
+        </association>
+    </resultMap>
+
+    <select id="getLandInfosByPetId" resultMap="landDtoMap">
+        SELECT
+        lands.id as landId,
+        lands.pet_id as petId,
+        lands.bpk_id as bpkId,
+        lands.crop_id as cropId,
+        lands.status,
+        lands.max_stage as maxStage,
+        lands.current_stage as currentStage,
+        lands.next_stage_start_time as nextStageStartTime,
+        lands.all_next_stage_time as nextStageAllTime,
+        lands.next_stage_remain_time as nextStageRemainTime,
+        lands.last_harvest_time as lastHarvestTime,
+        lands.max_harvest_count as maxHarvestCount,
+        lands.harvest_count as harvestCount,
+        <!-- 使用IF语句将seed属性设置为null -->
+        <if test="cropId != null">
+            seeds.id as seedId,
+            seeds.name,
+            seeds.type,
+            seeds.season,
+            seeds.harvest_amount as harvestAmount,
+            seeds.max_harvest_count as seedMaxHarvestCount,
+            seeds.harvest_exp as harvestExp,
+            seeds.stage_info as stageInfo,
+            (seeds.harvest_amount * seeds.harvest_exp) * seeds.max_harvest_count as totalHarvestExp
+        </if>
+        FROM lands
+        <!-- 使用if标签判断crop_id是否为空，为空时不执行查询 -->
+        <if test="cropId != null">
+            LEFT JOIN
+            seeds ON lands.crop_id = seeds.id
+        </if>
+        where lands.pet_id = #{petId}
+    </select>
+
+    <insert id="newPetCreated" parameterType="java.util.List">
+        insert into lands (pet_id, status) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.petId},#{item.status})
+        </foreach>
+    </insert>
+
+    <select id="getLandInfoByLid" resultMap="landDtoMap">
+        SELECT
+        lands.id as landId,
+        lands.pet_id as petId,
+        lands.bpk_id as bpkId,
+        lands.crop_id as cropId,
+        lands.status,
+        lands.max_stage as maxStage,
+        lands.current_stage as currentStage,
+        lands.next_stage_start_time as nextStageStartTime,
+        lands.all_next_stage_time as nextStageAllTime,
+        lands.next_stage_remain_time as nextStageRemainTime,
+        lands.last_harvest_time as lastHarvestTime,
+        lands.max_harvest_count as maxHarvestCount,
+        lands.harvest_count as harvestCount,
+        <!-- 使用IF语句将seed属性设置为null -->
+        <if test="cropId != null">
+            seeds.id as seedId,
+            seeds.name,
+            seeds.type,
+            seeds.season,
+            seeds.harvest_amount as harvestAmount,
+            seeds.max_harvest_count as seedMaxHarvestCount,
+            seeds.harvest_exp as harvestExp,
+            seeds.stage_info as stageInfo,
+            (seeds.harvest_amount * seeds.harvest_exp) * seeds.max_harvest_count as totalHarvestExp
+        </if>
+        FROM lands
+        <!-- 使用if标签判断crop_id是否为空，为空时不执行查询 -->
+        <if test="cropId != null">
+            LEFT JOIN
+            seeds ON lands.crop_id = seeds.id
+        </if>
+        where lands.id = #{landId}
+    </select>
+
+    <update id="plantCrop" parameterType="org.lanier.farm.entity.dto.PlantParamDto">
+        update
+            lands
+        set lands.crop_id=#{seedId},
+            lands.bpk_id=#{bpkId},
+            lands.status=#{status},
+            lands.max_stage=#{maxStage},
+            lands.current_stage=#{currentStage},
+            lands.max_harvest_count=#{maxHarvestCount},
+            lands.harvest_count=#{harvestCount},
+            lands.next_stage_start_time=#{nextStageStartTime},
+            lands.next_stage_remain_time=#{nextStageRemainTime},
+            lands.all_next_stage_time=#{nextStageAllTime}
+        where lands.id = #{landId}
+          and lands.pet_id = #{petId}
+    </update>
+
+    <update id="harvestCrop">
+        update
+            lands
+        set lands.status=3,
+            lands.bpk_id=null,
+            lands.crop_id=null,
+            lands.max_stage=0,
+            lands.current_stage=0,
+            lands.next_stage_remain_time= -1,
+            lands.all_next_stage_time=''
+        where lands.id = #{landId}
+          and lands.pet_id = #{petId}
+    </update>
+
+    <update id="updateLandInfo" parameterType="org.lanier.farm.entity.dto.PlantParamDto">
+        update
+            lands
+        set lands.status=#{status},
+            lands.current_stage=#{currentStage},
+            lands.harvest_count=#{harvestCount},
+            lands.next_stage_start_time=#{nextStageStartTime},
+            lands.next_stage_remain_time=#{nextStageRemainTime}
+        where lands.id = #{landId}
+          and lands.pet_id = #{petId}
+    </update>
+
+    <select id="getSeedInfoById" resultMap="seedDtoMap">
+        select seeds.id                                                             as seedId,
+               seeds.name,
+               seeds.type,
+               seeds.season,
+               seeds.harvest_amount                                                 as harvestAmount,
+               seeds.max_harvest_count                                              as seedMaxHarvestCount,
+               seeds.harvest_exp                                                    as harvestExp,
+               seeds.stage_info                                                     as stageInfo,
+               (seeds.harvest_amount * seeds.harvest_exp) * seeds.max_harvest_count as totalHarvestExp
+        from seeds
+        where id = #{seedId}
+    </select>
+
+    <select id="getLevelInfo" resultMap="plantLevelDto">
+        select plant_level.plant_level as plantLevel, plant_level.exp_required as expRequired from plant_level;
+    </select>
+</mapper>

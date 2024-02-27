@@ -2,7 +2,7 @@ package org.lanier.gameserve2.mapper
 
 import org.apache.ibatis.annotations.Mapper
 import org.lanier.gameserve2.entity.articles.Toiletries
-import org.lanier.gameserve2.entity.dto.BackpackDTO
+import org.lanier.gameserve2.entity.dto.BackpackDto
 
 /**
  * Created by 幻弦让叶
@@ -13,7 +13,7 @@ interface ToiletriesMapper {
 
     fun getToiletriesById(toiletriesId: Int) : List<Toiletries>
 
-    fun getToiletriesByUserAndPetId(userId: Int, petId: Int) : List<BackpackDTO>
+    fun getToiletriesByUserAndPetId(userId: Int, petId: Int) : List<BackpackDto>
 
     fun getAllToiletries() : List<Toiletries>
 

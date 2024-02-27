@@ -13,11 +13,85 @@
         <result column="amount" property="amount"/>
     </resultMap>
 
+    <resultMap id="bckDto" type="org.lanier.gameserve2.entity.dto.BackpackDto">
+        <id column="bpkId" property="bpkId"/>
+        <result column="userId" property="userId"/>
+        <result column="petId" property="petId"/>
+        <result column="realPropId" property="realPropId"/>
+        <result column="name" property="name"/>
+        <result column="desc" property="desc"/>
+        <result column="sellPrice" property="sellPrice"/>
+        <result column="amount" property="amount"/>
+    </resultMap>
+
     <select id="findPropById" resultMap="baseResultMap">
         select * from backpack where user_id=#{userId} and pet_id=#{petId} and real_prop_id=#{propId} and type=#{propType}
     </select>
 
     <update id="consume">
         update backpack set amount=amount - #{consume} where user_id=#{userId} and pet_id=#{petId} and real_prop_id=#{propId} and type=#{propType}
+    </update>
+
+    <select id="getSeedTotal">
+        select count(*) as total from backpack where backpack.pet_id=#{petId} and backpack.type=6 and backpack.amount > 0;
+    </select>
+
+    <select id="getFertilizerTotal">
+        select count(*) as total from backpack where backpack.pet_id=#{petId} and backpack.type=7 and backpack.amount > 0;
+    </select>
+
+    <select id="getCropTotal">
+        select count(*) as total from backpack where backpack.pet_id=#{petId} and backpack.type=8 and backpack.amount > 0;
+    </select>
+
+    <!--    获取道具数量-->
+    <select id="getQualityById">
+        select backpack.amount from backpack where backpack.id=#{bpkId}
+    </select>
+
+    <!--    获取道具数量-->
+    <select id="getQualityByTypeId">
+        select backpack.amount from backpack where backpack.type=#{type} and backpack.real_prop_id=#{realPropId} and backpack.pet_id=#{petId};
+    </select>
+
+    <!--    获取背包内种子-->
+    <select id="getSeedsByUid" resultMap="bckDto">
+        select backpack.id as bpkId, backpack.pet_id as petId, backpack.real_prop_id as realPropId, seeds.name,seeds.price as sellPrice,backpack.amount
+        from backpack join seeds on backpack.type=6 and backpack.real_prop_id=seeds.id
+        where backpack.pet_id=#{petId} and backpack.amount > 0 limit #{pageSize} offset #{offset};
+    </select>
+
+    <!--    获取背包内肥料-->
+    <select id="getFertilizerByUid" resultMap="bckDto">
+        select backpack.id as bpkId, backpack.pet_id as petId, backpack.real_prop_id as realPropId, fertilizer.name,fertilizer.effect as `desc`, fertilizer.value as effectValue, fertilizer.sell_price as sellPrice,backpack.amount
+        from backpack join fertilizer on backpack.type=7 and backpack.real_prop_id=fertilizer.id
+        where backpack.pet_id=#{petId} and backpack.amount > 0 limit #{pageSize} offset #{offset};
+    </select>
+
+    <!--    获取背包内作物果实-->
+    <select id="getCropsByUid" resultMap="bckDto">
+        select backpack.id as bpkId, backpack.pet_id as petId, backpack.real_prop_id as realPropId, crops.name,crops.sell_price as sellPrice,backpack.amount
+        from backpack join crops on backpack.type=8 and backpack.real_prop_id=crops.id
+        where backpack.pet_id=#{petId} and backpack.amount > 0 limit #{pageSize} offset #{offset};
+    </select>
+
+    <!--    消耗物品-->
+    <update id="consume">
+        update backpack set amount=amount - 1 where pet_id=#{userId} and real_prop_id=#{realPropId} and type=#{type};
+    </update>
+
+    <!--    增加物品-->
+    <insert id="addProp" parameterType="org.lanier.gameserve2.entity.Backpack" useGeneratedKeys="true" keyProperty="bpkId">
+        insert into backpack(user_id, pet_id, type, real_prop_id, amount) VALUES (#{userId}, #{type}, #{realPropId}, #{amount})
+    </insert>
+
+    <!--    修改物品-->
+    <update id="updateProp" parameterType="org.lanier.gameserve2.entity.Backpack">
+        update backpack set pet_id=#{petId}, type=#{type}, real_prop_id=#{realPropId}, amount=#{amount} where id=#{bpkId}
+    </update>
+
+    <!--    出售物品-->
+    <update id="sellProp">
+        update backpack set backpack.real_prop_id=#{realPropId}, backpack.type=#{type}, backpack.amount=backpack.amount - #{amount} where id=#{bpkId}
     </update>
 </mapper>

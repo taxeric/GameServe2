@@ -5,7 +5,7 @@ package org.lanier.gameserve2.entity
  * Date 2024/2/14 17:45
  */
 data class Market(
-
+    val mid: Int = 0,
     val propId: Int = 0,
     val propType: Int = PropType.SEED,
     val name: String = "",

@@ -7,8 +7,10 @@ package org.lanier.gameserve2.entity
 data class Land(
     val landId: Int = 0,
     val petId: Int = 0,
-    val status: Int = UNLOCK,
     val cropId: Int = 0,
+    val bpkId: Int = 0,
+
+    val status: Int = UNLOCK,
 
     /**
      * 到下一阶段的剩余时间

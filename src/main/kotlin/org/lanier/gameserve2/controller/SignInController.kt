@@ -3,7 +3,7 @@ package org.lanier.gameserve2.controller
 import org.lanier.gameserve2.base.BaseModel
 import org.lanier.gameserve2.entity.SignInConfig
 import org.lanier.gameserve2.entity.UserSignInLog
-import org.lanier.gameserve2.entity.dto.SignInConfigDTO
+import org.lanier.gameserve2.entity.dto.SignInConfigDto
 import org.lanier.gameserve2.service.PropService
 import org.lanier.gameserve2.service.SignInConfigService
 import org.lanier.gameserve2.service.UserSignInService
@@ -33,7 +33,7 @@ class SignInController(
     fun getRewardsByYearAndMonth(
         @RequestParam("year") year: Int,
         @RequestParam("month") month: Int,
-    ) : BaseModel<List<SignInConfigDTO>> {
+    ) : BaseModel<List<SignInConfigDto>> {
         val result = signInConfigService
             .getAllRewardsByYearAndMonth(year, month)
         return BaseModel.success(
