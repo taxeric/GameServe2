@@ -9,49 +9,49 @@ package org.lanier.gameserve2.entity.dto
  * 表示下一阶段的开始时间
  * 每次用户获取种植信息时, 刷新时间, 判定是否到下一阶段
  */
-class PlantParamDto {
-    private val landId: Int? = null // r
-    private val userId: Int? = null // r
-    private val seedId: Int? = null // r
-    private val bpkId: Int? = null // r
+data class PlantParamDto(
+    val landId: Int = -1,// r
+    val petId: Int = -1,// r
+    val seedId: Int = -1,// r
+    val bpkId: Int = -1,// r
 
     /**
      * 状态 1解锁 2种植ing 3空闲
      */
-    private val status = 0 // 计算
+    var status : Int = 0, // 计算
 
     /**
      * 当前阶段
      */
-    private val currentStage = 0 // 计算
+    var currentStage : Int = 0, // 计算
 
     /**
      * 最大阶段值
      */
-    private val maxStage = 0 // 计算
+    var maxStage : Int = 0, // 计算
 
     /**
      * 已收获的次数
      */
-    private val harvestCount = 0 // 计算
+    val harvestCount : Int = 0, // 计算
 
     /**
      * 最大收获次数
      */
-    private val maxHarvestCount = 0 // 计算
+    var maxHarvestCount : Int = 0, // 计算
 
     /**
      * 下一阶段的开始时间
      */
-    private val nextStageStartTime: Long = 0 // 计算
+    var nextStageStartTime: Long = 0L, // 计算
 
     /**
      * 到下一阶段剩余的时间
      */
-    private val nextStageRemainTime = 0 // 计算
+    var nextStageRemainTime : Int = 0, // 计算
 
     /**
      * 下一阶段的开始时间点
      */
-    private val nextStageAllTime: String? = null //
-}
+    var nextStageAllTime: String? = null,//
+)

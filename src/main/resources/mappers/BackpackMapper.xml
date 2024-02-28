@@ -29,7 +29,7 @@
     </select>
 
     <update id="consume">
-        update backpack set amount=amount - #{consume} where user_id=#{userId} and pet_id=#{petId} and real_prop_id=#{propId} and type=#{propType}
+        update backpack set amount=amount - #{consume} where pet_id=#{petId} and real_prop_id=#{propId} and type=#{propType}
     </update>
 
     <select id="getSeedTotal">
@@ -55,21 +55,21 @@
     </select>
 
     <!--    获取背包内种子-->
-    <select id="getSeedsByUid" resultMap="bckDto">
+    <select id="getSeedsByPid" resultMap="bckDto">
         select backpack.id as bpkId, backpack.pet_id as petId, backpack.real_prop_id as realPropId, seeds.name,seeds.price as sellPrice,backpack.amount
         from backpack join seeds on backpack.type=6 and backpack.real_prop_id=seeds.id
         where backpack.pet_id=#{petId} and backpack.amount > 0 limit #{pageSize} offset #{offset};
     </select>
 
     <!--    获取背包内肥料-->
-    <select id="getFertilizerByUid" resultMap="bckDto">
+    <select id="getFertilizerByPid" resultMap="bckDto">
         select backpack.id as bpkId, backpack.pet_id as petId, backpack.real_prop_id as realPropId, fertilizer.name,fertilizer.effect as `desc`, fertilizer.value as effectValue, fertilizer.sell_price as sellPrice,backpack.amount
         from backpack join fertilizer on backpack.type=7 and backpack.real_prop_id=fertilizer.id
         where backpack.pet_id=#{petId} and backpack.amount > 0 limit #{pageSize} offset #{offset};
     </select>
 
     <!--    获取背包内作物果实-->
-    <select id="getCropsByUid" resultMap="bckDto">
+    <select id="getCropsByPid" resultMap="bckDto">
         select backpack.id as bpkId, backpack.pet_id as petId, backpack.real_prop_id as realPropId, crops.name,crops.sell_price as sellPrice,backpack.amount
         from backpack join crops on backpack.type=8 and backpack.real_prop_id=crops.id
         where backpack.pet_id=#{petId} and backpack.amount > 0 limit #{pageSize} offset #{offset};

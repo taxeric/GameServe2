@@ -24,7 +24,7 @@ class BaseModel<D> {
         const val RES_SUCCESS = 0
         const val RES_ERROR = -1
 
-        fun <T> success(data: T? = null, message: String = "success") = BaseModel(
+        fun <T> success(data: T, message: String = "success") = BaseModel(
             message = message,
             code = SUCCESS,
             serverTime = System.currentTimeMillis(),
@@ -61,14 +61,6 @@ class BaseModel<D> {
             listData.total = total
             listData.list = d
             m.data = listData
-            return m
-        }
-
-        fun <D> success(
-            d: D
-        ): BaseModel<D> {
-            val m = successModel<D>()
-            m.data = d
             return m
         }
 

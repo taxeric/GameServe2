@@ -1,11 +1,13 @@
 package org.lanier.gameserve2.controller
 
+import org.lanier.gameserve2.base.BaseListModel
 import org.lanier.gameserve2.base.BaseModel
 import org.lanier.gameserve2.entity.dto.BackpackDto
 import org.lanier.gameserve2.service.BackpackService
 import org.lanier.gameserve2.service.DrugService
 import org.lanier.gameserve2.service.FoodService
 import org.lanier.gameserve2.service.ToiletriesService
+import org.lanier.gameserve2.utils.CommonUtil
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -22,7 +24,7 @@ class BackpackController(
     private val foodService: FoodService,
     private val toiletriesService: ToiletriesService,
     private val drugService: DrugService,
-) {
+) : BaseController() {
 
     @GetMapping("/foods")
     fun getBackpackFoodsInfo(
@@ -55,5 +57,59 @@ class BackpackController(
         return BaseModel.success(
             data = drugs
         )
+    }
+
+    @GetMapping("/seeds")
+    fun getSeeds(
+        @RequestParam("petId") petId: String?,
+        @RequestParam("page") page: Int,
+        @RequestParam("pageSize") pageSize: Int
+    ): BaseModel<BaseListModel<BackpackDto>> {
+        if (petId.isNullOrEmpty()) {
+            return BaseModel.notFoundUser()
+        }
+        val pid: Int = CommonUtil.toInteger(petId)
+        if (pid < 0) {
+            return BaseModel.actionFailed()
+        }
+        val offset: Int = handleOffset(page, pageSize)
+        val total = backpackService.getSeedTotal(pid)
+        return BaseModel.successList(total, backpackService.getSeedsByPid(pid, offset, pageSize))
+    }
+
+    @GetMapping("/fertilizer")
+    fun getFertilizer(
+        @RequestParam("petId") petId: String?,
+        @RequestParam("page") page: Int,
+        @RequestParam("pageSize") pageSize: Int
+    ): BaseModel<BaseListModel<BackpackDto>> {
+        if (petId.isNullOrEmpty()) {
+            return BaseModel.notFoundUser()
+        }
+        val pid: Int = CommonUtil.toInteger(petId)
+        if (pid < 0) {
+            return BaseModel.actionFailed()
+        }
+        val offset: Int = handleOffset(page, pageSize)
+        val total = backpackService.getFertilizerTotal(pid)
+        return BaseModel.successList(total, backpackService.getFertilizerByUid(pid, offset, pageSize))
+    }
+
+    @GetMapping("/crops")
+    fun getCrops(
+        @RequestParam("petId") petId: String?,
+        @RequestParam("page") page: Int,
+        @RequestParam("pageSize") pageSize: Int
+    ): BaseModel<BaseListModel<BackpackDto>> {
+        if (petId.isNullOrEmpty()) {
+            return BaseModel.notFoundUser()
+        }
+        val pid: Int = CommonUtil.toInteger(petId)
+        if (pid < 0) {
+            return BaseModel.actionFailed()
+        }
+        val offset: Int = handleOffset(page, pageSize)
+        val total = backpackService.getCropTotal(pid)
+        return BaseModel.successList(total, backpackService.getCropsByUid(pid, offset, pageSize))
     }
 }

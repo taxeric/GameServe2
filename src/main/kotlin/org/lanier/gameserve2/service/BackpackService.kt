@@ -25,7 +25,7 @@ class BackpackService(
         return mapper.getQualityById(bpkId!!)
     }
 
-    fun getQualityByTypeId(petId: Int, type: Int, realPropId: Int): Int {
+    fun getQualityByTypeId(petId: Int, type: Int, realPropId: Int): Int? {
         return mapper.getQualityByTypeId(petId, type, realPropId)
     }
 
@@ -42,24 +42,23 @@ class BackpackService(
     }
 
     fun getSeedsByPid(petId: Int, offset: Int, pageSize: Int): List<BackpackDto> {
-        return mapper.getSeedsByUid(petId, offset, pageSize)
+        return mapper.getSeedsByPid(petId, offset, pageSize)
     }
 
     fun getFertilizerByUid(userId: Int?, offset: Int, pageSize: Int): List<BackpackDto> {
-        return mapper.getFertilizerByUid(userId!!, offset, pageSize)
+        return mapper.getFertilizerByPid(userId!!, offset, pageSize)
     }
 
     fun getCropsByUid(userId: Int?, offset: Int, pageSize: Int): List<BackpackDto> {
-        return mapper.getCropsByUid(userId!!, offset, pageSize)
+        return mapper.getCropsByPid(userId!!, offset, pageSize)
     }
 
     fun consume(
-        userId: Int,
         petId: Int,
         propId: Int,
         propType: Int,
         consume: Int,
-    ) = mapper.consume(userId, petId, propId, propType, consume) > 0
+    ) = mapper.consume(petId, propId, propType, consume) > 0
 
     fun addProp(backpack: Backpack): Boolean {
         return mapper.addProp(backpack) == 1

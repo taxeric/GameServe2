@@ -28,7 +28,7 @@ class PetController(
     fun create(
         @RequestParam("name") name: String,
         @RequestParam("userId") userId: String,
-    ) : BaseModel<Pet> {
+    ) : BaseModel<Pet?> {
         if (name.isEmpty()) {
             return BaseModel.failure(message = "给宠物起个名字吧~")
         }
@@ -59,7 +59,7 @@ class PetController(
     @GetMapping("/info")
     fun getPetInfo(
         @RequestParam("petId") petId: String,
-    ) : BaseModel<Pet> {
+    ) : BaseModel<Pet?> {
         if (petId.isEmpty()) {
             return BaseModel.failure(message = "没有找到宠物哦~")
         }
@@ -118,7 +118,7 @@ class PetController(
             return BaseModel.failureBoolean(message = "数量不够哦~")
         }
         if (needConsume.first == 0) {
-            return BaseModel.success(message = "宠物已经很饱啦, 不需要吃东西哦~")
+            return BaseModel.successBool(message = "宠物已经很饱啦, 不需要吃东西哦~")
         }
         val success = bpkService.consume(
             userId = userId.toInt(),
@@ -131,7 +131,7 @@ class PetController(
             return BaseModel.failureBoolean(message = "好像出错了~")
         }
         petService.updateStatusOfSatiety(mPetId, needConsume.second)
-        return BaseModel.success(true, message = "开吃开吃~")
+        return BaseModel.successBool(message = "开吃开吃~")
     }
 
     @PostMapping("/wash")
@@ -177,7 +177,7 @@ class PetController(
             return BaseModel.failureBoolean(message = "数量不够哦~")
         }
         if (needConsume.first == 0) {
-            return BaseModel.success(message = "宠物已经很干净啦~")
+            return BaseModel.successBool(message = "宠物已经很干净啦~")
         }
         val success = bpkService.consume(
             userId = userId.toInt(),
@@ -230,7 +230,7 @@ class PetController(
             return BaseModel.failureBoolean(message = "数量不够哦~")
         }
         if (needConsume.first == 0) {
-            return BaseModel.success(message = "宠物很健康, 不需要吃药哦~")
+            return BaseModel.successBool(message = "宠物很健康, 不需要吃药哦~")
         }
         val success = bpkService.consume(
             userId = userId,

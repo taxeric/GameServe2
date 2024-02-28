@@ -2,6 +2,7 @@ package org.lanier.gameserve2.mapper
 
 import org.apache.ibatis.annotations.Mapper
 import org.lanier.gameserve2.entity.Pet
+import org.lanier.gameserve2.entity.dto.PetDto
 
 @Mapper
 interface PetMapper {
@@ -11,6 +12,8 @@ interface PetMapper {
     fun getPetsByUserId(userId: Int) : List<Pet>
 
     fun getPetById(petId: Int) : List<Pet>
+
+    fun getPetById2(petId: Int) : List<PetDto>
 
     fun updateStatusOfSatiety(petId: Int, newValue: Int) : Int
 

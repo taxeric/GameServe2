@@ -8,5 +8,5 @@ data class LandCropStageInfo(
     /**
      * 下一阶段的开始时间, 单位ms
      */
-    private var nextStageAllTime: List<Long>? = null
+    val nextStageAllTime: List<Long> = emptyList()
 )

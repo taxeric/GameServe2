@@ -19,7 +19,6 @@ interface BackpackMapper {
     ) : List<Backpack>
 
     fun consume(
-        userId: Int,
         petId: Int,
         propId: Int,
         propType: Int,
@@ -28,15 +27,15 @@ interface BackpackMapper {
 
     fun getQualityById(bpkId: Int): Int
 
-    fun getQualityByTypeId(petId: Int, type: Int, realPropId: Int): Int
+    fun getQualityByTypeId(petId: Int, type: Int, realPropId: Int): Int?
 
     fun getSeedTotal(petId: Int): Int
     fun getFertilizerTotal(petId: Int): Int
     fun getCropTotal(petId: Int): Int
 
-    fun getSeedsByUid(petId: Int, offset: Int, pageSize: Int): List<BackpackDto>
-    fun getFertilizerByUid(petId: Int, offset: Int, pageSize: Int): List<BackpackDto>
-    fun getCropsByUid(petId: Int, offset: Int, pageSize: Int): List<BackpackDto>
+    fun getSeedsByPid(petId: Int, offset: Int, pageSize: Int): List<BackpackDto>
+    fun getFertilizerByPid(petId: Int, offset: Int, pageSize: Int): List<BackpackDto>
+    fun getCropsByPid(petId: Int, offset: Int, pageSize: Int): List<BackpackDto>
 
     fun addProp(backpack: Backpack): Int
 

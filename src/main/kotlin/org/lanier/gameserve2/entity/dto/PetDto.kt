@@ -4,15 +4,15 @@ package org.lanier.gameserve2.entity.dto
  * Created by 幻弦让叶
  * Date 2024/2/24 22:36
  */
-class PetDto {
-    private val userId: Int? = null
-    private val petId: Int? = null
-    private val petName: String? = null
-    private val currentPlantExp = 0
-    private val lackExp = 0
-    private val currentLevel: PlantLevelDto? = null
-    private val coin = 0
-    private val unlockedLandCount = 0
-    private val usedLandCount = 0
-    private val maxLandCount = 0
-}
+data class PetDto(
+    val userId: Int = -1,
+    val petId: Int = -1,
+    val petName: String = "",
+    val currentPlantExp : Int = 0,
+    val lackExp : Int = 0,
+    val currentLevel: PlantLevelDto = PlantLevelDto(),
+    val coin : Int = 0,
+    val unlockedLandCount : Int = 0,
+    val usedLandCount : Int = 0,
+    val maxLandCount : Int = 0,
+)
