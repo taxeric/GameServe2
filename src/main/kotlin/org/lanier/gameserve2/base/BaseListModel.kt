@@ -7,4 +7,5 @@ package org.lanier.gameserve2.base
 class BaseListModel<D> {
     var total: Int = 0
     var list: List<D>? = null
+    var hasNext: Boolean = false
 }

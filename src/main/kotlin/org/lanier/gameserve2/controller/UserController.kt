@@ -20,7 +20,7 @@ class UserController(
     fun login(
         @RequestParam("account") account: String,
         @RequestParam("password") password: String
-    ) : BaseModel<User> {
+    ) : BaseModel<User?> {
         val users = service.login(account, password)
         if (users.isEmpty()) {
             return BaseModel.failure(message = "未找到用户~")
@@ -41,16 +41,16 @@ class UserController(
     ) : BaseModel<Boolean> {
         val result = service.register(account, password)
         return if (result > 0) {
-            BaseModel.success(message = "注册成功~", data = true)
+            BaseModel.successBool(message = "注册成功~")
         } else {
-            BaseModel.failure(message = "注册失败~", data = false)
+            BaseModel.failedBool(message = "注册失败~")
         }
     }
 
     @PostMapping("/getInfo")
     fun getInfo(
         @RequestParam("userId") userId: String
-    ) : BaseModel<User> {
+    ) : BaseModel<User?> {
         val uid = try {
             userId.toInt()
         } catch (e: Throwable) {

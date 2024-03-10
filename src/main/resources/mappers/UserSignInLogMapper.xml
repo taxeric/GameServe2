@@ -19,7 +19,11 @@
     </resultMap>
 
     <select id="getLogsByUserAndPetIdAndYearMonth" resultMap="baseResultMap">
-        select * from user_sign_in_log where user_id=#{userId} and pet_id=#{petId} and year=#{year} and month=#{month} limit #{pageSize} offset #{offset}
+        select * from user_sign_in_log where pet_id=#{petId} and year=#{year} and month=#{month} limit #{pageSize} offset #{offset}
+    </select>
+
+    <select id="getLogsNumberByPetId">
+        select count(*) as total from user_sign_in_log where pet_id=#{petId} and year=#{year} and month=#{month}
     </select>
 
     <insert id="addLog" parameterType="org.lanier.gameserve2.entity.UserSignInLog" useGeneratedKeys="true" keyProperty="logId">

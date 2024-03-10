@@ -121,7 +121,6 @@ class PetController(
             return BaseModel.successBool(message = "宠物已经很饱啦, 不需要吃东西哦~")
         }
         val success = bpkService.consume(
-            userId = userId.toInt(),
             petId = mPetId,
             propId = mFoodId,
             propType = PropType.FOOD,
@@ -180,7 +179,6 @@ class PetController(
             return BaseModel.successBool(message = "宠物已经很干净啦~")
         }
         val success = bpkService.consume(
-            userId = userId.toInt(),
             petId = mPetId,
             propId = mToiletriesId,
             propType = PropType.TOILETRIES,
@@ -233,7 +231,6 @@ class PetController(
             return BaseModel.successBool(message = "宠物很健康, 不需要吃药哦~")
         }
         val success = bpkService.consume(
-            userId = userId,
             petId = petId,
             propId = drugId,
             propType = PropType.DRUG,

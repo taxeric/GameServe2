@@ -76,13 +76,13 @@
     </select>
 
     <!--    消耗物品-->
-    <update id="consume">
-        update backpack set amount=amount - 1 where pet_id=#{userId} and real_prop_id=#{realPropId} and type=#{type};
-    </update>
+<!--    <update id="consume">-->
+<!--        update backpack set amount=amount - 1 where pet_id=#{userId} and real_prop_id=#{realPropId} and type=#{type};-->
+<!--    </update>-->
 
     <!--    增加物品-->
     <insert id="addProp" parameterType="org.lanier.gameserve2.entity.Backpack" useGeneratedKeys="true" keyProperty="bpkId">
-        insert into backpack(user_id, pet_id, type, real_prop_id, amount) VALUES (#{userId}, #{type}, #{realPropId}, #{amount})
+        insert into backpack(user_id, pet_id, type, real_prop_id, amount) VALUES (#{userId}, #{petId}, #{type}, #{realPropId}, #{amount})
     </insert>
 
     <!--    修改物品-->

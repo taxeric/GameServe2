@@ -35,7 +35,7 @@
         <result column="lastHarvestTime" property="lastHarvestTime"/>
         <result column="maxHarvestCount" property="maxHarvestCount"/>
         <result column="harvestCount" property="harvestCount"/>
-        <association property="seed" javaType="org.lanier.farm.entity.dto.SeedDto">
+        <association property="seed" javaType="org.lanier.gameserve2.entity.dto.SeedDto">
             <id column="seedId" property="seedId"/>
             <result column="name" property="name"/>
             <result column="type" property="type"/>
@@ -127,7 +127,7 @@
         where lands.id = #{landId}
     </select>
 
-    <update id="plantCrop" parameterType="org.lanier.farm.entity.dto.PlantParamDto">
+    <update id="plantCrop" parameterType="org.lanier.gameserve2.entity.dto.PlantParamDto">
         update
             lands
         set lands.crop_id=#{seedId},
@@ -158,7 +158,7 @@
           and lands.pet_id = #{petId}
     </update>
 
-    <update id="updateLandInfo" parameterType="org.lanier.farm.entity.dto.PlantParamDto">
+    <update id="updateLandInfo" parameterType="org.lanier.gameserve2.entity.dto.PlantParamDto">
         update
             lands
         set lands.status=#{status},

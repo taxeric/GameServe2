@@ -1,17 +1,11 @@
 package org.lanier.gameserve2.base
 
-class BaseModel<D> {
-    var code: String = ""
-    var message: String = ""
-    var serverTime: Long = 0L
+data class BaseModel<D>(
+    var code: String = "",
+    var message: String = "",
+    var serverTime: Long = 0L,
     var data: D? = null
-
-    constructor(code: String, message: String, serverTime: Long, data: D)
-    constructor()
-
-    fun isSuccess(): Boolean {
-        return code == BaseModel.SUCCESS
-    }
+) {
 
     companion object {
 
@@ -64,6 +58,30 @@ class BaseModel<D> {
             return m
         }
 
+        fun <D> successList(
+            hasNext: Boolean,
+            d: List<D>
+        ): BaseModel<BaseListModel<D>> {
+            val m: BaseModel<BaseListModel<D>> = successModel<BaseListModel<D>>()
+            val listData: BaseListModel<D> = BaseListModel()
+            listData.hasNext = hasNext
+            listData.list = d
+            m.data = listData
+            return m
+        }
+
+        fun <D> failureList(
+            message: String = "failure"
+        ): BaseModel<BaseListModel<D>> {
+            val m: BaseModel<BaseListModel<D>> = failedModel(FAILED)
+            m.message = message
+            val listData: BaseListModel<D> = BaseListModel()
+            listData.hasNext = false
+            listData.list = null
+            m.data = listData
+            return m
+        }
+
         fun <D> failed(
             code: String,
             message: String
@@ -75,7 +93,7 @@ class BaseModel<D> {
         }
 
         fun successBool(
-            message: String
+            message: String = "success"
         ): BaseModel<Boolean> {
             val m = successModel<Boolean>()
             m.message = message
@@ -84,7 +102,7 @@ class BaseModel<D> {
         }
 
         fun failedBool(
-            message: String
+            message: String = "failure"
         ): BaseModel<Boolean> {
             val m = failedModel<Boolean>(BaseModel.FAILED)
             m.message = message

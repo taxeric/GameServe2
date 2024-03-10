@@ -10,7 +10,9 @@ import org.lanier.gameserve2.entity.UserSignInLog
 @Mapper
 interface UserSignInMapper {
 
-    fun getLogsByUserAndPetIdAndYearMonth(userId: Int, petId: Int, year: Int, month: Int, offset: Int, pageSize: Int = 10) : List<UserSignInLog>
+    fun getLogsByUserAndPetIdAndYearMonth(petId: Int, year: Int, month: Int, offset: Int, pageSize: Int = 10) : List<UserSignInLog>
+
+    fun getLogsNumberByPetId(petId: Int, year: Int, month: Int) : Int
 
     fun addLog(log: UserSignInLog) : Int
 }

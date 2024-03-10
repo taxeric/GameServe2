@@ -14,7 +14,7 @@ object ClientManager {
         return true
     }
 
-    fun get(key: String) : MxWebSocket? {
+    fun get(key: String?) : MxWebSocket? {
         if (key == null) {
             return null
         }

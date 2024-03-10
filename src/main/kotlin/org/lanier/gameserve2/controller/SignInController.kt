@@ -1,5 +1,6 @@
 package org.lanier.gameserve2.controller
 
+import org.lanier.gameserve2.base.BaseListModel
 import org.lanier.gameserve2.base.BaseModel
 import org.lanier.gameserve2.entity.SignInConfig
 import org.lanier.gameserve2.entity.UserSignInLog
@@ -91,29 +92,30 @@ class SignInController(
 
     @GetMapping("/get-mine-logs")
     fun getMineSignInLogs(
-        @RequestParam("userId") userId: Int,
         @RequestParam("petId") petId: Int,
         @RequestParam("year") year: Int,
         @RequestParam("month") month: Int,
         @RequestParam("page") page: Int, // 从1开始
         @RequestParam("pageSize") pageSize: Int? = 10,
-    ) : BaseModel<List<UserSignInLog>> {
-        if (userId < 0 || petId < 0) {
-            return BaseModel.failure(message = "没有找到id耶～")
+    ) : BaseModel<BaseListModel<UserSignInLog>> {
+        if (petId < 0) {
+            return BaseModel.failureList(message = "没有找到id耶～")
         }
         if (DateUtil.isCurrentYear(year).not()) {
-            return BaseModel.failure(message = "年份有误哦~")
+            return BaseModel.failureList(message = "年份有误哦~")
         }
         if (DateUtil.isCurrentMonth(month).not()) {
-            return BaseModel.failure(message = "月份有误哦~")
+            return BaseModel.failureList(message = "月份有误哦~")
         }
         val mPage = if (page <= 0) {
             1
         } else page
         val mPageSize = pageSize?: 10
         val offset = (mPage - 1) * mPageSize
-        val logs = signInService.getLogsByUserAndPetIdAndYearMonth(userId, petId, year, month, offset, mPageSize)
-        return BaseModel.success(data = logs)
+        val logs = signInService.getLogsByUserAndPetIdAndYearMonth(petId, year, month, offset, mPageSize)
+        val total = signInService.getLogsNumberByPetId(petId, year, month)
+        val hasNext = offset + mPageSize < total
+        return BaseModel.successList(hasNext, logs)
     }
 
     @PostMapping("/sign-in")

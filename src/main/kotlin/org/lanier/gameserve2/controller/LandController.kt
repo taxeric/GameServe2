@@ -300,7 +300,7 @@ class LandController(
         }
 
         val refreshResult = refreshImpl(landId, pid, null)
-        if (refreshResult.isSuccess()) {
+        if (refreshResult.code == BaseModel.SUCCESS) {
             val lands = landService.getLandInfoByLid(landId)
             if (lands.size != 1) {
                 return BaseModel.failedBool("土地异常~")

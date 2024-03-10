@@ -29,7 +29,8 @@ class MarketController(
     ): BaseModel<BaseListModel<MarketDto>> {
         val offset = handleOffset(page, pageSize)
         val total: Int = marketService.seedTotal()
-        return BaseModel.successList(total, marketService.getSeeds(offset, pageSize))
+        val hasNext = offset + pageSize < total
+        return BaseModel.successList(hasNext, marketService.getSeeds(offset, pageSize))
     }
 
     @GetMapping("/fertilizer")
@@ -39,10 +40,11 @@ class MarketController(
     ): BaseModel<BaseListModel<MarketDto>> {
         val offset = handleOffset(page, pageSize)
         val total: Int = marketService.fertilizerTotal()
-        return BaseModel.successList(total, marketService.getFertilizer(offset, pageSize))
+        val hasNext = offset + pageSize < total
+        return BaseModel.successList(hasNext, marketService.getFertilizer(offset, pageSize))
     }
 
-    @PostMapping("/buy")
+    @PostMapping("/purchase")
     fun buyProduct(
         @RequestParam("petId") petId: String?,
         @RequestParam("type") type: Int,
@@ -68,9 +70,10 @@ class MarketController(
         }
         val propQuantity: Int? = backpackService.getQualityByTypeId(pid, type, propId)
         val backpack: Backpack = Backpack(
+            userId = 1,
             petId = pid,
             type = type,
-            realPropId = propId
+            realPropId = propId,
         )
         val updatePropSuccess: Boolean
         if (propQuantity != null && propQuantity > 0) {

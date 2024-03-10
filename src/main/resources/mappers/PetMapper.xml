@@ -38,7 +38,7 @@
         <result column="emotion" property="emotion"/>
         <result column="age" property="age"/>
         <result column="birthday" property="birthday"/>
-        <association property="currentLevel" javaType="org.lanier.farm.entity.dto.PlantLevelDto">
+        <association property="currentLevel" javaType="org.lanier.gameserve2.entity.dto.PlantLevelDto">
             <result column="plantLevel" property="plantLevel"/>
             <result column="expRequired" property="expRequired"/>
         </association>
