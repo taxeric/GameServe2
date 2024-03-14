@@ -54,6 +54,12 @@
         select backpack.amount from backpack where backpack.type=#{type} and backpack.real_prop_id=#{realPropId} and backpack.pet_id=#{petId};
     </select>
 
+    <!--    获取道具数量-->
+    <select id="getPropByTypeId" resultMap="bckDto">
+        select backpack.id as bpkId, backpack.amount
+        from backpack where backpack.type=#{type} and backpack.real_prop_id=#{realPropId} and backpack.pet_id=#{petId};
+    </select>
+
     <!--    获取背包内种子-->
     <select id="getSeedsByPid" resultMap="bckDto">
         select backpack.id as bpkId, backpack.pet_id as petId, backpack.real_prop_id as realPropId, seeds.name,seeds.price as sellPrice,backpack.amount

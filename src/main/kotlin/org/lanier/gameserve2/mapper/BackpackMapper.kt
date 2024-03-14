@@ -29,6 +29,8 @@ interface BackpackMapper {
 
     fun getQualityByTypeId(petId: Int, type: Int, realPropId: Int): Int?
 
+    fun getPropByTypeId(petId: Int, type: Int, realPropId: Int) : BackpackDto?
+
     fun getSeedTotal(petId: Int): Int
     fun getFertilizerTotal(petId: Int): Int
     fun getCropTotal(petId: Int): Int

@@ -3,6 +3,7 @@ package org.lanier.gameserve2.controller
 import org.lanier.gameserve2.base.BaseListModel
 import org.lanier.gameserve2.base.BaseModel
 import org.lanier.gameserve2.entity.Backpack
+import org.lanier.gameserve2.entity.dto.BackpackDto
 import org.lanier.gameserve2.entity.dto.MarketDto
 import org.lanier.gameserve2.service.BackpackService
 import org.lanier.gameserve2.service.MarketService
@@ -47,6 +48,7 @@ class MarketController(
     @PostMapping("/purchase")
     fun buyProduct(
         @RequestParam("petId") petId: String?,
+        @RequestParam("userId") userId: Int,
         @RequestParam("type") type: Int,
         @RequestParam("realPropId") propId: Int,
         @RequestParam("quantity") quantity: Int,
@@ -68,16 +70,17 @@ class MarketController(
         if (needCoin > petCoin) {
             return BaseModel.failedBool("金币不足哦")
         }
-        val propQuantity: Int? = backpackService.getQualityByTypeId(pid, type, propId)
+        val backpackProp: BackpackDto? = backpackService.getPropByTypeId(pid, type, propId)
         val backpack: Backpack = Backpack(
-            userId = 1,
+            bpkId = backpackProp?.bpkId?:0,
+            userId = userId,
             petId = pid,
             type = type,
             realPropId = propId,
         )
         val updatePropSuccess: Boolean
-        if (propQuantity != null && propQuantity > 0) {
-            backpack.amount = (propQuantity + quantity)
+        if (backpackProp != null && backpackProp.amount > 0) {
+            backpack.amount = (backpackProp.amount + quantity)
             updatePropSuccess = backpackService.updateProp(backpack)
         } else {
             backpack.amount = (quantity)

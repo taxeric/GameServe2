@@ -29,6 +29,10 @@ class BackpackService(
         return mapper.getQualityByTypeId(petId, type, realPropId)
     }
 
+    fun getPropByTypeId(petId: Int, type: Int, realPropId: Int) : BackpackDto? {
+        return mapper.getPropByTypeId(petId, type, realPropId)
+    }
+
     fun getSeedTotal(petId: Int): Int {
         return mapper.getSeedTotal(petId)
     }
