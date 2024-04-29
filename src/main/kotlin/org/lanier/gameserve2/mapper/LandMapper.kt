@@ -24,5 +24,5 @@ interface LandMapper {
     fun updateLandInfo(plantParamDto: PlantParamDto): Int
     fun getSeedInfoById(seedId: Int): List<SeedDto>
 
-    fun levelInfo(): List<PlantLevelDto>
+    fun getLevelInfo(): List<PlantLevelDto>
 }

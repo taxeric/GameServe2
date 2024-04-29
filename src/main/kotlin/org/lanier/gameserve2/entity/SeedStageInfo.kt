@@ -1,7 +1,5 @@
 package org.lanier.gameserve2.entity
 
-import org.lanier.gameserve2.base.SPair
-
 /**
  * Created by 幻弦让叶
  * Date 2024/2/25 3:04
@@ -25,8 +23,8 @@ data class SeedStageInfo(
         return stageName.size
     }
 
-    fun getStageInfo(index: Int): SPair<String, Int> {
+    fun getStageInfo(index: Int): Pair<String, Int> {
         require(!(index < 0 || stageName.isEmpty())) { "empty data" }
-        return SPair(stageName[index], stageSustainTime[index])
+        return Pair(stageName[index], stageSustainTime[index])
     }
 }

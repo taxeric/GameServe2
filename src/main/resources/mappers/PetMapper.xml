@@ -48,12 +48,22 @@
         insert into pets (name,user_id) values (#{name},#{userId});
     </insert>
 
-    <select id="getPetsByUserId" resultMap="baseResultMap">
-        select * from pets where user_id=#{userId}
+    <select id="getPetsByUserId" resultMap="petDto">
+        select pets.id as petId, pets.user_id as userId, pets.name, pets.current_plant_exp as currentPlantExp, (plant_level.exp_required - pets.current_plant_exp) as lackExp, pets.coin, pets.unlocked_land_count as unlockedLandCount, pets.used_land_count as usedLandCount, pets.max_land_count as maxLandCount, plant_level.plant_level as plantLevel,plant_level.exp_required as expRequired
+        from pets join plant_level on pets.plant_level_id=plant_level.id
+        where pets.user_id=#{userId};
     </select>
 
-    <select id="getPetById" resultMap="baseResultMap">
-        select * from pets where id=#{petId};
+    <select id="getPetById" resultMap="petDto">
+        select pets.id as petId, pets.user_id as userId, pets.name, pets.current_plant_exp as currentPlantExp, (plant_level.exp_required - pets.current_plant_exp) as lackExp, pets.coin, pets.unlocked_land_count as unlockedLandCount, pets.used_land_count as usedLandCount, pets.max_land_count as maxLandCount, plant_level.plant_level as plantLevel,plant_level.exp_required as expRequired
+        from pets join plant_level on pets.plant_level_id=plant_level.id
+        where pets.id=#{petId};
+    </select>
+
+    <select id="getPlantInfoById" resultMap="petDto">
+        select pets.current_plant_exp as currentPlantExp, (plant_level.exp_required - pets.current_plant_exp) as lackExp, pets.coin, pets.unlocked_land_count as unlockedLandCount, pets.used_land_count as usedLandCount, pets.max_land_count as maxLandCount, plant_level.plant_level as plantLevel,plant_level.exp_required as expRequired
+        from pets join plant_level on pets.plant_level_id=plant_level.id
+        where pets.id=#{petId};
     </select>
 
     <update id="updateStatusOfSatiety">

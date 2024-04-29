@@ -6,14 +6,15 @@ package org.lanier.gameserve2.entity.dto
  */
 data class BackpackDto(
     val bpkId: Int = 0, // 对应背包内的id
-    val propId: Int = 0, // 对应道具id
+    val realPropId: Int = 0, // 对应道具id
+    val userId: Int = 0,
+    val petId: Int = 0,
     val name: String = "",
-    val effect: String = "",
     val pic: String = "",
     val useLevel: Int = 0,
     val LE: Boolean = false,
     val amount: Int = 0,
-    val userId: Int = 0,
-    val petId: Int = 0,
+    val effect: String = "",
+    val effectValue: Int? = 0,
     val sellPrice: Int = 0,
 )

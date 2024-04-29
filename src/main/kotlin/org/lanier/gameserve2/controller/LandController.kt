@@ -128,8 +128,8 @@ class LandController(
             val curTime = System.currentTimeMillis()
             if (isNewPlant) { // 如果是新种植作物
                 val singleInfo = seedStageInfo.getStageInfo(currentStage)
-                nextStageStartTime = curTime + singleInfo.s * 1000L
-                nextStageRemainTime = singleInfo.s
+                nextStageStartTime = curTime + singleInfo.second * 1000L
+                nextStageRemainTime = singleInfo.second
             } else {
                 val interval: Long = curTime - curLandInfo.nextStageStartTime // 计算时间间隔
                 if (interval < 0) { // 如果<0表示还在当前阶段
@@ -222,8 +222,8 @@ class LandController(
             val singleInfo = seedStageInfo.getStageInfo(currentStage)
             val nextStageAllTimes: MutableList<Long> = ArrayList()
             val curTime = System.currentTimeMillis()
-            nextStageStartTime = curTime + singleInfo.s * 1000L
-            nextStageRemainTime = singleInfo.s
+            nextStageStartTime = curTime + singleInfo.second * 1000L
+            nextStageRemainTime = singleInfo.second
             var plantTime = curTime
             for (info in seedStageInfo.stageSustainTime) {
                 val nextTime = plantTime + info * 1000L
@@ -297,14 +297,15 @@ class LandController(
             if (levelInfos.isEmpty()) {
                 return BaseModel.actionFailed()
             }
+            plantLevelDtos.addAll(levelInfos)
+        }
+        val lands = landService.getLandInfoByLid(landId)
+        if (lands.size != 1) {
+            return BaseModel.failedBool("土地异常~")
         }
 
-        val refreshResult = refreshImpl(landId, pid, null)
+        val refreshResult = refreshImpl(landId, pid, lands[0])
         if (refreshResult.code == BaseModel.SUCCESS) {
-            val lands = landService.getLandInfoByLid(landId)
-            if (lands.size != 1) {
-                return BaseModel.failedBool("土地异常~")
-            }
             // 当前土地信息
             val curLandInfo = lands[0]
             if (curLandInfo.seed == null) {
@@ -317,7 +318,7 @@ class LandController(
             val totalExpectExp = curSeed.totalHarvestExp // 收获作物理论上总的可以获得的经验值
             val totalRealExp = curSeed.harvestAmount * curSeed.harvestExp // 收获作物实际可以获得的经验值
 
-            val petInfo: List<PetDto> = petService.getPetById2(pid)
+            val petInfo: List<PetDto> = petService.getPetById(pid)
             if (petInfo.size != 1) {
                 return BaseModel.notFoundUser()
             }
@@ -340,6 +341,7 @@ class LandController(
             if (uhResult) {
                 val harvestResult = landService.harvestCrop(landId, pid)
                 if (harvestResult) {
+//                    ClientManager.sendMessage(message.toString())
                     return BaseModel.successBool("success")
                 }
                 return BaseModel.failedBool("收获失败了")
@@ -475,7 +477,7 @@ class LandController(
         if (currentStage + 1 < seedStageInfos.maxStageSize()) { // 如果下一阶段不是最后阶段
             var existStage = false
             for (i in currentStage + 1 until seedStageInfos.maxStageSize()) {
-                val curStageTime = seedStageInfos.getStageInfo(i).s
+                val curStageTime = seedStageInfos.getStageInfo(i).second
                 realRemainTime -= curStageTime // 判断与当前阶段的时间差
                 realStage = i
                 realStartTime += curStageTime * 1000L
@@ -494,9 +496,9 @@ class LandController(
             // 否则说明下一阶段已经是最后阶段
             realStage = seedStageInfos.maxStageSize() - 1
             //计算最后阶段的剩余时间
-            val i2 = seedStageInfos.getStageInfo(seedStageInfos.maxStageSize() - 1).s - i1
+            val i2 = seedStageInfos.getStageInfo(seedStageInfos.maxStageSize() - 1).second - i1
             realStartTime =
-                if (i2 < 0) 0 else nextStageStartTime + seedStageInfos.getStageInfo(seedStageInfos.maxStageSize() - 1).s * 1000L
+                if (i2 < 0) 0 else nextStageStartTime + seedStageInfos.getStageInfo(seedStageInfos.maxStageSize() - 1).second * 1000L
             realRemainTime = max(i2.toDouble(), 0.0).toInt()
             canHarvest = i2 < 0
         }
@@ -536,6 +538,6 @@ class LandController(
     }
 
     companion object {
-        private val plantLevelDtos: List<PlantLevelDto> = ArrayList()
+        private val plantLevelDtos = mutableListOf<PlantLevelDto>()
     }
 }

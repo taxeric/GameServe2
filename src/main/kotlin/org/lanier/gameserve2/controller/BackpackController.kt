@@ -74,7 +74,8 @@ class BackpackController(
         }
         val offset: Int = handleOffset(page, pageSize)
         val total = backpackService.getSeedTotal(pid)
-        return BaseModel.successList(total, backpackService.getSeedsByPid(pid, offset, pageSize))
+        val hasNext = offset + pageSize < total
+        return BaseModel.successList(hasNext, backpackService.getSeedsByPid(pid, offset, pageSize))
     }
 
     @GetMapping("/fertilizer")
@@ -92,7 +93,8 @@ class BackpackController(
         }
         val offset: Int = handleOffset(page, pageSize)
         val total = backpackService.getFertilizerTotal(pid)
-        return BaseModel.successList(total, backpackService.getFertilizerByUid(pid, offset, pageSize))
+        val hasNext = offset + pageSize < total
+        return BaseModel.successList(hasNext, backpackService.getFertilizerByUid(pid, offset, pageSize))
     }
 
     @GetMapping("/crops")
@@ -110,6 +112,7 @@ class BackpackController(
         }
         val offset: Int = handleOffset(page, pageSize)
         val total = backpackService.getCropTotal(pid)
-        return BaseModel.successList(total, backpackService.getCropsByUid(pid, offset, pageSize))
+        val hasNext = offset + pageSize < total
+        return BaseModel.successList(hasNext, backpackService.getCropsByUid(pid, offset, pageSize))
     }
 }

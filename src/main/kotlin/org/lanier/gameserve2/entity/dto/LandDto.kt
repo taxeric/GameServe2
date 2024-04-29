@@ -7,7 +7,7 @@ package org.lanier.gameserve2.entity.dto
  */
 data class LandDto(
     val landId: Int = -1,
-    val userId: Int = -1,
+    val petId: Int = -1,
     val bpkId: Int = -1, // 背包道具id
     val cropId: Int = -1,
     val seed: SeedDto? = null, // 当前种植的作物

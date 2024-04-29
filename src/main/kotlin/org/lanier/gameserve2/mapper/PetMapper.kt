@@ -9,11 +9,11 @@ interface PetMapper {
 
     fun create(pet: Pet) : Int
 
-    fun getPetsByUserId(userId: Int) : List<Pet>
+    fun getPetsByUserId(userId: Int) : List<PetDto>
 
-    fun getPetById(petId: Int) : List<Pet>
+    fun getPetById(petId: Int) : List<PetDto>
 
-    fun getPetById2(petId: Int) : List<PetDto>
+    fun getPlantInfoById(petId: Int) : PetDto
 
     fun updateStatusOfSatiety(petId: Int, newValue: Int) : Int
 

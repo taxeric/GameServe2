@@ -79,7 +79,7 @@ class MarketController(
             realPropId = propId,
         )
         val updatePropSuccess: Boolean
-        if (backpackProp != null && backpackProp.amount > 0) {
+        if (backpackProp != null && backpackProp.amount >= 0) {
             backpack.amount = (backpackProp.amount + quantity)
             updatePropSuccess = backpackService.updateProp(backpack)
         } else {

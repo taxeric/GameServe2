@@ -44,5 +44,5 @@ class LandService(
         return landMapper.getSeedInfoById(seedId)
     }
 
-    fun levelInfo() = landMapper.levelInfo()
+    fun levelInfo() = landMapper.getLevelInfo()
 }

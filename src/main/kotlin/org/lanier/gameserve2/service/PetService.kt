@@ -15,7 +15,7 @@ class PetService(
 
     fun getPetById(petId: Int) = mapper.getPetById(petId)
 
-    fun getPetById2(petId: Int) = mapper.getPetById2(petId)
+    fun getPlantInfoById(petId: Int) = mapper.getPlantInfoById(petId)
 
     fun updateStatusOfSatiety(petId: Int, newValue: Int) = mapper.updateStatusOfSatiety(petId, newValue)
 

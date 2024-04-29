@@ -1,7 +1,5 @@
 package org.lanier.gameserve2.controller
 
-import org.lanier.gameserve2.base.SPair
-
 /**
  * Created by 幻弦让叶
  * Date 2024/2/24 17:54
@@ -16,10 +14,10 @@ abstract class BaseController {
     protected fun handlePage(
         page: Int,
         pageSize: Int
-    ): SPair<Int, Int> {
+    ): Pair<Int, Int> {
         val mPage = if (page <= 0) 1 else page
         val offset = (mPage - 1) * pageSize
-        return SPair(offset, pageSize)
+        return Pair(offset, pageSize)
     }
 
     /**
