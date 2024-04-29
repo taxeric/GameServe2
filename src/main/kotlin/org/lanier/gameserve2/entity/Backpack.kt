@@ -17,7 +17,7 @@ data class Backpack(
     /**
      * 道具数量
      */
-    val amount: Int = 0,
+    var amount: Int = 0,
 
     /**
      * 道具类型

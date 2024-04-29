@@ -2,7 +2,7 @@ package org.lanier.gameserve2.mapper
 
 import org.apache.ibatis.annotations.Mapper
 import org.lanier.gameserve2.entity.articles.Drug
-import org.lanier.gameserve2.entity.dto.BackpackDTO
+import org.lanier.gameserve2.entity.dto.BackpackDto
 
 /**
  * Created by 幻弦让叶
@@ -13,7 +13,7 @@ interface DrugMapper {
 
     fun getDrugById(drugId: Int) : List<Drug>
 
-    fun getDrugByUserAndPetId(userId: Int, petId: Int) : List<BackpackDTO>
+    fun getDrugByUserAndPetId(userId: Int, petId: Int) : List<BackpackDto>
 
     fun getAllDrugs() : List<Drug>
 

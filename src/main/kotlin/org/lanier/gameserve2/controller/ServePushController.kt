@@ -21,15 +21,15 @@ class ServePushController {
     }
 
     @PostMapping("/push/send/type")
-    fun pushSystemMsgToClients(@RequestParam("type") type: String) : BaseModel<Any> {
+    fun pushSystemMsgToClients(@RequestParam("type") type: String) : BaseModel<Boolean> {
         handleMessage(Message(from = Message.SYSTEM, text = type))
-        return BaseModel.success(data = null)
+        return BaseModel.successBool()
     }
 
     @PostMapping("/push/send")
-    fun pushSimpleMsgToClients(@RequestParam("msg") msg: String) : BaseModel<Any> {
+    fun pushSimpleMsgToClients(@RequestParam("msg") msg: String) : BaseModel<Boolean> {
         handleMessage(Message(from = Message.SIMPLE, text = msg))
-        return BaseModel.success(data = null)
+        return BaseModel.successBool()
     }
     
     private fun handleMessage(message: Message) {

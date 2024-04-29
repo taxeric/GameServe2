@@ -15,9 +15,27 @@ class PetService(
 
     fun getPetById(petId: Int) = mapper.getPetById(petId)
 
+    fun getPlantInfoById(petId: Int) = mapper.getPlantInfoById(petId)
+
     fun updateStatusOfSatiety(petId: Int, newValue: Int) = mapper.updateStatusOfSatiety(petId, newValue)
 
     fun updateStatusOfCleanliness(petId: Int, newValue: Int) = mapper.updateStatusOfCleanliness(petId, newValue)
 
     fun updateStatusOfHealthy(petId: Int, newValue: Int) = mapper.updateStatusOfHealthy(petId, newValue)
+
+    fun getPetCoin(petId: Int): Int {
+        return mapper.getPetCoin(petId)
+    }
+
+    fun consumeCoin(coin: Int, petId: Int): Boolean {
+        return mapper.consumeCoin(coin, petId) == 1
+    }
+
+    fun addCoin(coin: Int, petId: Int): Boolean {
+        return mapper.addCoin(coin, petId) == 1
+    }
+
+    fun harvestCrop(plantLevelId: Int, cropTotalExp: Int, petId: Int): Boolean {
+        return mapper.harvestCrop(plantLevelId, cropTotalExp, petId) == 1
+    }
 }

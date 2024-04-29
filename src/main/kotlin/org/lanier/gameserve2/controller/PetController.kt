@@ -7,6 +7,7 @@ import org.lanier.gameserve2.entity.PropType
 import org.lanier.gameserve2.entity.articles.Drug
 import org.lanier.gameserve2.entity.articles.Food
 import org.lanier.gameserve2.entity.articles.Toiletries
+import org.lanier.gameserve2.entity.dto.PetDto
 import org.lanier.gameserve2.service.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -28,7 +29,7 @@ class PetController(
     fun create(
         @RequestParam("name") name: String,
         @RequestParam("userId") userId: String,
-    ) : BaseModel<Pet> {
+    ) : BaseModel<PetDto?> {
         if (name.isEmpty()) {
             return BaseModel.failure(message = "给宠物起个名字吧~")
         }
@@ -59,7 +60,7 @@ class PetController(
     @GetMapping("/info")
     fun getPetInfo(
         @RequestParam("petId") petId: String,
-    ) : BaseModel<Pet> {
+    ) : BaseModel<PetDto?> {
         if (petId.isEmpty()) {
             return BaseModel.failure(message = "没有找到宠物哦~")
         }
@@ -73,6 +74,22 @@ class PetController(
         }
         val pet = getPet(mPid) ?: return BaseModel.failure(message = "没有找到宠物哦~")
         return BaseModel.success(pet)
+    }
+
+    @GetMapping("/get-plant-info")
+    fun getPlantByPetId(@RequestParam("petId") petId: String) : BaseModel<PetDto?> {
+        if (petId.isEmpty()) {
+            return BaseModel.failure(message = "没有找到宠物哦~")
+        }
+        val mPid = try {
+            petId.toInt()
+        } catch (e: Throwable) {
+            -1
+        }
+        if (mPid < 0) {
+            return BaseModel.failure(message = "没有找到宠物哦~")
+        }
+        return BaseModel.success(data = petService.getPlantInfoById(mPid))
     }
 
     @PostMapping("/eat")
@@ -118,10 +135,9 @@ class PetController(
             return BaseModel.failureBoolean(message = "数量不够哦~")
         }
         if (needConsume.first == 0) {
-            return BaseModel.success(message = "宠物已经很饱啦, 不需要吃东西哦~")
+            return BaseModel.successBool(message = "宠物已经很饱啦, 不需要吃东西哦~")
         }
         val success = bpkService.consume(
-            userId = userId.toInt(),
             petId = mPetId,
             propId = mFoodId,
             propType = PropType.FOOD,
@@ -131,7 +147,7 @@ class PetController(
             return BaseModel.failureBoolean(message = "好像出错了~")
         }
         petService.updateStatusOfSatiety(mPetId, needConsume.second)
-        return BaseModel.success(true, message = "开吃开吃~")
+        return BaseModel.successBool(message = "开吃开吃~")
     }
 
     @PostMapping("/wash")
@@ -177,10 +193,9 @@ class PetController(
             return BaseModel.failureBoolean(message = "数量不够哦~")
         }
         if (needConsume.first == 0) {
-            return BaseModel.success(message = "宠物已经很干净啦~")
+            return BaseModel.successBool(message = "宠物已经很干净啦~")
         }
         val success = bpkService.consume(
-            userId = userId.toInt(),
             petId = mPetId,
             propId = mToiletriesId,
             propType = PropType.TOILETRIES,
@@ -230,10 +245,9 @@ class PetController(
             return BaseModel.failureBoolean(message = "数量不够哦~")
         }
         if (needConsume.first == 0) {
-            return BaseModel.success(message = "宠物很健康, 不需要吃药哦~")
+            return BaseModel.successBool(message = "宠物很健康, 不需要吃药哦~")
         }
         val success = bpkService.consume(
-            userId = userId,
             petId = petId,
             propId = drugId,
             propType = PropType.DRUG,
@@ -282,7 +296,7 @@ class PetController(
         return Pair(needConsume, if (rv > maxValue) maxValue else rv)
     }
 
-    private fun getPet(id: Int) : Pet? {
+    private fun getPet(id: Int) : PetDto? {
         val pets = petService.getPetById(id)
         if (pets.isEmpty()) {
             return null

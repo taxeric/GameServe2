@@ -2,7 +2,7 @@ package org.lanier.gameserve2.mapper
 
 import org.apache.ibatis.annotations.Mapper
 import org.lanier.gameserve2.entity.articles.Food
-import org.lanier.gameserve2.entity.dto.BackpackDTO
+import org.lanier.gameserve2.entity.dto.BackpackDto
 
 /**
  * Created by 幻弦让叶
@@ -13,7 +13,7 @@ interface FoodMapper {
 
     fun getFoodById(foodId: Int) : List<Food>
 
-    fun getFoodsByUserAndPetId(userId: Int, petId: Int) : List<BackpackDTO>
+    fun getFoodsByUserAndPetId(userId: Int, petId: Int) : List<BackpackDto>
 
     fun getAllFoods() : List<Food>
 

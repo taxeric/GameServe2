@@ -1,8 +1,7 @@
 package org.lanier.gameserve2.mapper
 
 import org.apache.ibatis.annotations.Mapper
-import org.lanier.gameserve2.entity.SignInConfig
-import org.lanier.gameserve2.entity.dto.SignInConfigDTO
+import org.lanier.gameserve2.entity.dto.SignInConfigDto
 
 /**
  * Created by 黄瓜
@@ -14,7 +13,7 @@ interface SignInConfigMapper {
     fun getAllRewardsByYearAndMonth(
         year: Int,
         month: Int
-    ) : List<SignInConfigDTO>
+    ) : List<SignInConfigDto>
 
     fun addReward(
         category: Int,

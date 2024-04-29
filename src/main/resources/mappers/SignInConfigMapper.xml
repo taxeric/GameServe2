@@ -15,7 +15,7 @@
         <result column="prop_type" property="propType"/>
     </resultMap>
 
-    <resultMap id="resultDTO" type="org.lanier.gameserve2.entity.dto.SignInConfigDTO">
+    <resultMap id="resultDTO" type="org.lanier.gameserve2.entity.dto.SignInConfigDto">
         <id column="id" property="id"/>
         <result column="category" property="category"/>
         <result column="amount" property="amount"/>

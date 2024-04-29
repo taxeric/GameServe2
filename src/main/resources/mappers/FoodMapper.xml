@@ -16,7 +16,7 @@
         <result column="l_e" property="LE"/>
     </resultMap>
 
-    <resultMap id="backpackDTOMap" type="org.lanier.gameserve2.entity.dto.BackpackDTO">
+    <resultMap id="backpackDTOMap" type="org.lanier.gameserve2.entity.dto.BackpackDto">
         <result column="propId" property="propId" />
         <result column="name" property="name" />
         <result column="effect" property="effect" />

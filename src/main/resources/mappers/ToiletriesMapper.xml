@@ -14,7 +14,7 @@
         <result column="pic" property="pic"/>
     </resultMap>
 
-    <resultMap id="backpackDTOMap" type="org.lanier.gameserve2.entity.dto.BackpackDTO">
+    <resultMap id="backpackDTOMap" type="org.lanier.gameserve2.entity.dto.BackpackDto">
         <result column="propId" property="propId" />
         <result column="name" property="name" />
         <result column="effect" property="effect" />

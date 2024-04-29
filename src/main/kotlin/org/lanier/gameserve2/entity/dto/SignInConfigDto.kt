@@ -6,7 +6,7 @@ import org.lanier.gameserve2.entity.SignInConfig
  * Created by 黄瓜
  * Date 2024/2/9 17:27
  */
-data class SignInConfigDTO(
+data class SignInConfigDto(
     val id: Int = 0,
     val category: Int = SignInConfig.CATEGORY_PROP,
     val amount: Int = 1,
